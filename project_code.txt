@@ -1,0 +1,4055 @@
+﻿
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\README.md ====================
+
+# RAG (Rapid Answer Generator)
+
+## ðŸš€ Project Overview
+
+RAG (Rapid Answer Generator) is an intelligent web application designed to transform your PDF documents into a personal, queryable knowledge base. Upload your PDFs, ask questions, and receive precise, context-aware answers instantly. Whether for research, study, or decision-making, RAG empowers you to extract maximum value from your documents efficiently.
+
+## âœ¨ Features
+
+*   **Advanced PDF Processing**: Upload up to two PDF documents (max 5MB each). The system automatically detects and performs OCR on scanned PDFs using `ocrmypdf` to ensure text is always extractable.
+*   **Retrieval-Augmented Generation (RAG)**: Documents are chunked, vectorized using Google's embeddings, and stored in a ChromaDB vector store for efficient similarity searches.
+*   **Context-Aware Chat**: Ask questions and receive answers based on the content of your uploaded documents. The conversation history is used to maintain context.
+*   **Gemini Fallback**: If an answer isn't found within the provided documents, the app seamlessly queries the powerful Google Gemini model for a general knowledge response.
+*   **Voice-to-Text Input**: Use the built-in voice search to ask questions hands-free, powered by the browser's Speech Recognition API.
+*   **Secure User Authentication**: Robust authentication system with Appwrite, supporting both email/password and Google OAuth for quick and secure access.
+*   **Conversation Management**: View, revisit, and delete past conversations. Your chat history is saved and linked to your user account.
+*   **Usage Limits**: Implements a daily prompt limit per user to manage resource consumption, which resets every 24 hours.
+*   **Fully Responsive UI**: A sleek and modern interface built with React, Tailwind CSS, and shadcn/ui that works beautifully on desktop and mobile devices.
+
+## ðŸ› ï¸ Tech Stack
+
+The application is built with a modern, full-stack architecture, leveraging powerful tools for both the frontend and backend.
+
+### Frontend
+
+*   **Framework**: React.js
+*   **Build Tool**: Vite
+*   **Styling**: Tailwind CSS
+*   **UI Components**: shadcn/ui
+*   **State Management**: Redux Toolkit
+*   **Routing**: React Router DOM
+*   **Icons**: Lucide React
+
+### Backend
+
+*   **Server**: Flask (Python)
+*   **BaaS (Backend as a Service)**: Appwrite
+*   **AI/RAG Framework**: LangChain (Python)
+*   **AI Model**: Google Gemini API
+*   **Vector Database**: ChromaDB
+*   **PDF Processing**: PyPDFLoader & `ocrmypdf`
+
+## ðŸ—ï¸ Architecture
+
+Below is a high-level overview of the RAG application's architecture:
+
+![RAG Architecture Diagram](./client/public/RAG%20architecture.png)
+
+## ðŸ“º Demo Video
+
+Watch a quick demonstration of RAG in action, from setting up to querying your documents:
+
+[![RAG Demo Video](./client/public/DemoIcon.png)](https://screenrec.com/share/U7RV108Ovx)
+
+
+## ðŸš€ Getting Started
+
+Follow these instructions to set up and run the RAG application on your local machine.
+
+### Prerequisites
+
+*   Node.js (v18 or higher)
+*   Python (v3.9 or higher)
+*   npm or Yarn
+*   `ocrmypdf` (install via `pip install ocrmypdf` or your system's package manager)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/rag-project.git
+cd rag-project
+```
+
+### 2. Backend Setup (Python Flask)
+
+Navigate to the `server` directory:
+
+```bash
+cd server
+```
+
+Create a Python virtual environment and activate it:
+
+```bash
+# On Windows
+python -m venv venv
+.\venv\Scripts\activate
+
+# On macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the `server` directory by copying `.env.sample` and fill in your credentials:
+
+```
+# server/.env
+FRONTEND_URL="http://localhost:5173"
+VITE_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
+VITE_APPWRITE_PROJECT_ID="YOUR_APPWRITE_PROJECT_ID"
+VITE_APPWRITE_API_KEY="YOUR_APPWRITE_API_KEY"
+VITE_APPWRITE_DATABASE_ID="YOUR_APPWRITE_DATABASE_ID"
+VITE_APPWRITE_CONVERSATIONS_COLL_ID="YOUR_CONVERSATIONS_COLLECTION_ID"
+VITE_APPWRITE_MESSAGES_COLL_ID="YOUR_MESSAGES_COLLECTION_ID"
+VITE_APPWRITE_USER_LIMITS_COLL_ID="YOUR_USER_LIMITS_COLLECTION_ID"
+GOOGLE_API_KEY="YOUR_GOOGLE_GEMINI_API_KEY"
+```
+
+Run the Flask server:
+
+```bash
+flask run
+```
+The backend server will typically run on `http://127.0.0.1:5000`.
+
+### 3. Frontend Setup (React Vite)
+
+Open a new terminal and navigate to the `client` directory:
+
+```bash
+cd client
+```
+
+Install the Node.js dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env` file in the `client` directory by copying `.env.sample` and fill in your credentials:
+
+```
+# client/.env
+VITE_APPWRITE_PROJECT_ID="YOUR_APPWRITE_PROJECT_ID"
+VITE_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
+VITE_APPWRITE_DATABASE_ID="YOUR_APPWRITE_DATABASE_ID"
+VITE_APPWRITE_USERS_COLL_ID="YOUR_USERS_COLLECTION_ID"
+VITE_APPWRITE_USER_LIMITS_COLL_ID="YOUR_USER_LIMITS_COLLECTION_ID"
+VITE_GOOGLE_OAUTH_CLIENT_ID="YOUR_GOOGLE_OAUTH_CLIENT_ID"
+VITE_EMAIL_ADDRESS="your-contact-email@example.com"
+VITE_BACKEND_URL="http://127.0.0.1:5000"
+VITE_BASE_URL="http://localhost:5173"
+```
+
+Start the React development server:
+
+```bash
+npm run dev
+```
+The frontend application will open in your browser at `http://localhost:5173`.
+
+## ðŸ¤ Contributing
+
+We welcome contributions to the RAG project! If you have suggestions, bug reports, or want to contribute code, please feel free to:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/your-feature-name`).
+3.  Make your changes.
+4.  Commit your changes (`git commit -m 'Add new feature'`).
+5.  Push to the branch (`git push origin feature/your-feature-name`).
+6.  Open a Pull Request.
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\.env ====================
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\.env.sample ====================
+
+VITE_GOOGLE_OAUTH_CLIENT_ID = 
+VITE_APPWRITE_PROJECT_ID = 
+VITE_APPWRITE_DATABASE_ID = 
+VITE_APPWRITE_COLLECTION_ID = 
+VITE_APPWRITE_USERS_COLL_ID = 
+VITE_APPWRITE_USER_LIMITS_COLL_ID=
+VITE_EMAIL_ADDRESS = 
+VITE_APPWRITE_ENDPOINT = 
+VITE_BACKEND_URL=
+VITE_BASE_URL=
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\components.json ====================
+
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": false,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/index.css",
+    "baseColor": "zinc",
+    "cssVariables": false,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\eslint.config.js ====================
+
+import js from '@eslint/js'
+import globals from 'globals'
+import react from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+
+export default [
+  { ignores: ['dist'] },
+  {
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    settings: { react: { version: '18.3' } },
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...react.configs['jsx-runtime'].rules,
+      ...reactHooks.configs.recommended.rules,
+      'react/jsx-no-target-blank': 'off',
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  },
+]
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\index.html ====================
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="png" href="/RAG-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rapid Answer Generator</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\jsconfig.json ====================
+
+{
+    "files": [],
+    "references": [
+      {
+        "path": "./tsconfig.app.json"
+      },
+      {
+        "path": "./tsconfig.node.json"
+      }
+    ],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    }
+  }
+  
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\package.json ====================
+
+{
+  "name": "mini-project-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@react-oauth/google": "^0.12.1",
+    "@reduxjs/toolkit": "^2.8.2",
+    "@shadcn/ui": "^0.0.4",
+    "appwrite": "^16.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.456.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.2",
+    "react-icons": "^5.6.0",
+    "react-markdown": "^10.1.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^6.28.0",
+    "react-simple-typewriter": "^5.0.1",
+    "react-speech-recognition": "^3.10.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "regenerator-runtime": "^0.14.1",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^2.5.4",
+    "tailwind-scrollbar": "^3.0.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-basic-ssl": "^1.0.2",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^5.4.10"
+  }
+}
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\postcss.config.js ====================
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\tailwind.config.js ====================
+
+/** @type {import('tailwindcss').Config} */
+export default {
+    darkMode: ["class"],
+    content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  theme: {
+  	extend: {
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		colors: {}
+  	}
+  },
+  plugins: [
+	require('tailwind-scrollbar'),
+	require("tailwindcss-animate")
+],
+}
+
+
+
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\vite.config.js ====================
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from "path"
+
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\App.jsx ====================
+
+import LandingPg from "./pages/LandingPg"
+import Signup from "./components/Signup"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import ChatInterface from "./components/ChatInterface"
+import PrivacyPolicy from "./components/PrivacyPolicy"
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPg />} />
+        <Route path="/login" element={<Signup variable={"Log in"}/>} />
+        <Route path="/signup" element={<Signup variable={"Sign up"}/>} />
+        <Route path="/chat" element={<ChatInterface />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\index.css ====================
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem
+  }
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\main.jsx ====================
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import { Provider } from 'react-redux'
+import store from './redux/store.js'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+  </StrictMode>,
+)
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\appwrite(service)\auth.js ====================
+
+import { Client, Account, ID, OAuthProvider, Databases} from "appwrite";
+import { conf } from "../config/conf.js";
+
+export class AuthService{
+    client = new Client();
+    account;
+    databases;
+
+    constructor(){
+    this.client
+        .setEndpoint(conf.appwriteUrl)
+        .setProject(conf.appwriteProjectId);
+    this.account = new Account(this.client);
+    this.databases = new Databases(this.client);
+    }
+
+    async googleLogin(){
+        try {
+            await this.account.createOAuth2Session(OAuthProvider.Google, `${conf.BaseUrl}/chat`, `${conf.BaseUrl}/login`);
+            const user = await this.getCurrentUser();
+            if (!user) {
+                throw new Error('Failed to register Google user in Appwrite Auth');
+            }
+            return user;
+        } catch (error) {
+            console.log("Appwrite error in Google login:", error);
+            throw error;
+        }
+    }
+
+    async getJWT() {
+        try {
+            const jwt = await this.account.createJWT();
+            return jwt;
+        } catch (error) {
+            console.log(`Appwrite error in getting JWT: ${error}`);
+            throw error;
+        }
+    }
+
+    async getCurrentUser() {
+        try {
+            const user = await this.account.get();
+            return user;
+        } catch (error) {
+            console.error("Appwrite error in getting user:", error);
+            return null;
+        }
+    }
+
+    async createAccount({email, password}){
+        try {
+            const userAccount = await this.account.create(ID.unique(),email, password);
+            if(userAccount){
+                return this.login({email, password});
+            }else {
+                return  userAccount;
+            }
+        } catch (error) {
+            console.log(`Appwrite Error in account creation: ${error}`)
+            throw error;
+        }
+    }
+
+    async login({email, password}){
+        try {
+            try {
+                await this.account.get();
+                console.log("Another session found, logging out before login...");
+                await this.account.deleteSession('current');
+            } catch (error) {
+                //Not throwing this error is the best way to handle this
+                console.log("User is guest, proceeding to login.", error);
+            }
+            
+            const session = await this.account.createEmailPasswordSession(email, password);
+            return {session};
+        } catch (error) {
+            console.log(`Appwrite Error in login: ${error}`)
+            throw error;
+        }
+    }
+
+    async logout(){
+        try {
+            await this.account.deleteSession('current');
+        } catch (error) {
+            console.log("Appwrite error:: Logout", error)
+            throw error;
+        }
+    }
+}
+
+const authService = new AuthService();
+
+export default authService;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Card.jsx ====================
+
+import React from 'react'
+
+function Card({header='', content='',imgUrl, borderPosition, className}) {
+  return (
+    <div className={`bg-[#0A363CB2] border ${className} flex flex-col mx-1 my-2`}>
+        <h2 className='text-3xl'>{header}</h2>
+        <p className='text-lg text-center'>{content}</p>
+        <img src={imgUrl} alt={header} className='w-full h-60 object-cover'/>
+    </div>
+  )
+}
+
+export default Card
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ChatInterface.jsx ====================
+
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Mic, Send, Upload, MenuIcon, AlertCircle, X, LogOut } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { useNavigate } from "react-router-dom";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import authService from "../appwrite(service)/auth";
+import { login as reduxLogin, logout as reduxLogout } from "../redux/authSlice";
+import ConversationHistory from "./ConversationHistory";
+import ProcessingAnimation from "./ProcessingAnimation";
+import { useSpeech } from "../hooks/useSpeech";
+import { useChat } from "../hooks/useChat";
+
+const SidebarContent = () => <ConversationHistory />;
+
+export default function ChatInterface() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { userData, jwt } = useSelector((state) => state.auth);
+  const { activeConversationId, messages } = useSelector((state) => state.conversation)
+  const [input, setInput] = useState("");
+  const [files, setFiles] = useState([]);
+  const fileInputRef = useRef(null);
+  const chatEndRef = useRef(null);
+
+  const { isListening, browserSupport, handleMicClick } = useSpeech((transcript) => setInput(transcript));
+  const { submitChat, isLoading, streamingResponse, promptsRemaining, maxPrompts } = useChat(jwt, activeConversationId, messages);
+  const isSendDisabled = isLoading || (promptsRemaining !== null && promptsRemaining <= 0);
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkUserAndJWT = async () => {
+      if (userData && jwt) return;
+      try {
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          const token = await authService.getJWT();
+          if (isMounted) {
+            dispatch(reduxLogin({ userData: currentUser, jwt: token.jwt }));
+            localStorage.setItem("userData", JSON.stringify(currentUser));
+          }
+        } else {
+          throw new Error("No session");
+        }
+      } catch (error) {
+        if (isMounted) handleLogout();
+        console.log("Error in getting current user:", error.message)
+      }
+    };
+    checkUserAndJWT();
+    return () => { isMounted = false; };
+  }, [dispatch, userData, jwt]);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, streamingResponse]);
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+    } catch(e) {
+      console.log("Error in logging out:", e.message)
+    }
+    dispatch(reduxLogout());
+    localStorage.clear();
+    navigate("/login");
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.some(f => f.type !== "application/pdf" || f.size > 5242880)) {
+      return alert("Only PDFs under 5MB allowed.");
+    }
+    if (selectedFiles.length > 2) return alert("Max 2 files.");
+    setFiles(selectedFiles);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(!input.trim() || !jwt) return;
+    
+    submitChat(input, files, {onClearInput: () => { setInput(""); setFiles([]); }, onRestoreInput: (failedInput, failedFiles) => { setInput(failedInput); setFiles(failedFiles); }, onAuthFailure: handleLogout});
+  };
+
+  return (
+    <div className="flex h-[100dvh] bg-[#0a1a1f] text-white">
+      <div className="hidden md:flex md:flex-shrink-0">
+        <div className="flex flex-col w-64 border-r border-cyan-950">
+          <SidebarContent jwt={jwt} />
+        </div>
+      </div>
+
+      <div className="flex flex-col flex-1 w-full">
+        <header className="flex items-center justify-between p-2 border-b border-cyan-950 md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MenuIcon className="w-6 h-6 text-cyan-400" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="w-64 bg-[#0a1a1f] border-cyan-950 p-0"
+            >
+              <div className="flex justify-end p-2">
+                <SheetClose asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-cyan-400 hover:bg-gray-700"
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </SheetClose>
+              </div>
+              <SidebarContent jwt={jwt} />
+            </SheetContent>
+          </Sheet>
+          <h1 className="text-lg font-semibold">RAG</h1>
+          <div className="flex justify-center items-center justify-self-center">
+            <Button
+              onClick={handleLogout}
+              variant="ghost"
+              size="sm"
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
+            <Button className="bg-transparent" variant="ghost" size="sm" asChild>
+                <a href='https://github.com/owaismohammed79/RAG' target="_blank" rel="noopener noreferrer"><FaGithub className="w-5 h-5"/></a>
+            </Button>
+          </div>
+        </header>
+
+        {browserSupport.message && !browserSupport.supported && (
+          <Alert variant="destructive" className="m-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{browserSupport.message}</AlertDescription>
+          </Alert>
+        )}
+
+        <main className="flex-1 p-4 overflow-y-auto pb-24 md:pb-4">
+          <div className="max-w-3xl mx-auto">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`mb-4 flex ${
+                  message.type === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                <div
+                  className={`p-4 rounded-lg max-w-lg ${
+                    message.type === "user" ? "bg-cyan-600" : "bg-gray-700"
+                  }`}
+                >
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                          <SyntaxHighlighter
+                            style={dracula}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code className="bg-gray-800 rounded px-1" {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            ))}
+
+            {streamingResponse && (
+              <div className="mb-4 flex justify-start">
+                <div className="p-4 rounded-lg max-w-lg bg-gray-700">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                          <SyntaxHighlighter
+                            style={dracula}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code className="bg-gray-800 rounded px-1" {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                    }}
+                  >
+                    {streamingResponse}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
+
+            {isLoading && !streamingResponse && <ProcessingAnimation />}
+
+            <div ref={chatEndRef} />
+          </div>
+        </main>
+
+        <div className="fixed bottom-0 left-0 right-0 p-4 border-t border-cyan-950 bg-[#0a1a1f] md:relative md:pb-4">
+          {promptsRemaining !== null && (
+            <div className="text-center text-sm text-gray-400 mb-2">
+              {promptsRemaining <= 0 ? (
+                <span className="text-red-400">
+                  Daily prompt limit reached.
+                </span>
+              ) : (
+                <span>
+                  {promptsRemaining} of {maxPrompts} prompts remaining today.
+                </span>
+              )}
+            </div>
+          )}
+          <form
+            onSubmit={onSubmit}
+            className="flex items-center gap-2 bg-black/30 rounded-full p-2 max-w-[900px] mx-auto"
+          >
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={handleMicClick}
+              className={`rounded-full ${
+                isListening ? "text-red-500 animate-pulse" : "text-cyan-400"
+              }`}
+              disabled={!browserSupport.supported || isSendDisabled}
+            >
+              <Mic className="w-6 h-6" />
+            </Button>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Message Or Talk With RAG"
+              className="flex-1 bg-transparent border-none focus:outline-none text-gray-300"
+              disabled={isSendDisabled}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="text-cyan-400 rounded-full"
+              title="Upload PDF files"
+              onClick={() => fileInputRef.current.click()}
+              disabled={isSendDisabled}
+            >
+              <Upload className="w-6 h-6" />
+              <input
+                type="file"
+                ref={fileInputRef}
+                multiple
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept=".pdf"
+              />
+            </Button>
+            {files.length > 0 && (
+              <span className="text-sm text-gray-400 whitespace-nowrap px-2">
+                {files.length} file{files.length > 1 ? "s" : ""}
+              </span>
+            )}
+            <Button
+              type="submit"
+              variant="ghost"
+              size="icon"
+              className="text-cyan-400 rounded-full"
+              disabled={isLoading && isSendDisabled}
+            >
+              <Send className="w-6 h-6" />
+            </Button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ConversationHistory.jsx ====================
+
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchConversations, setActiveConversation, fetchMessages, startNewChat, deleteConversation } from '../redux/convoSlice';
+import { logout as reduxLogout} from '../redux/authSlice';
+import { Button } from "@/components/ui/button";
+import { PlusCircle, X, LogOut } from 'lucide-react';
+import { FaGithub } from "react-icons/fa";
+import authService from '../appwrite(service)/auth';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useNavigate } from 'react-router-dom';
+
+const ConversationHistory = () => {
+    const dispatch = useDispatch();
+    const { conversations, activeConversationId, status } = useSelector(state => state.conversation);
+    const { jwt } = useSelector(state => state.auth)
+    const [isDeleting, setIsDeleting] = useState(false);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (jwt) {
+            dispatch(fetchConversations(jwt));
+        }
+    }, [dispatch, jwt]); //fetch conversations whenever jwt changes
+
+    const handleConversationClick = (id) => {
+        dispatch(setActiveConversation(id));
+        dispatch(fetchMessages({ conversationId: id, jwt }));
+    };
+
+    const handleNewChat = () => {
+        dispatch(startNewChat());
+    };
+
+    const handleDeleteConversation = async (convoId) => {
+        setIsDeleting(true);
+        try {
+            await dispatch(deleteConversation({ conversationId: convoId, jwt })).unwrap();
+            //if the deleted conversation was active, start a new chat
+            if (activeConversationId === convoId) {
+                dispatch(startNewChat());
+            }
+        } catch (error) {
+            console.error("Failed to delete conversation:", error);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await authService.logout();
+            dispatch(reduxLogout());
+            localStorage.removeItem('userData');
+            navigate('/login');
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
+    return (
+        <div className="flex flex-col p-4 gap-2 h-full">
+            <Button onClick={handleNewChat} className="flex items-center justify-start gap-2 bg-cyan-600 hover:bg-cyan-700">
+                <PlusCircle className="w-5 h-5" />
+                <span>New Chat</span>
+            </Button>
+            <h2 className="text-lg font-semibold text-gray-300 mt-4 px-2">History</h2>
+            <div className="flex flex-col gap-1 overflow-y-auto flex-1">
+                {status === 'loading' && conversations.length === 0 ? (
+                    //skeleton loader for initial load
+                    Array.from({ length: 5 }).map((_, i) => (
+                        <div key={i} className="h-10 bg-gray-700 rounded-md animate-pulse w-full"></div>
+                    ))
+                ) : (
+                    conversations.map(convo => (
+                        <div key={convo.$id} className="relative flex items-center group">
+                            <Button
+                                variant={activeConversationId === convo.$id ? "secondary" : "ghost"}
+                                className={`w-full justify-start truncate pr-8  ${activeConversationId === convo.$id ?
+                                "text-black" : "text-gray-400"}`}
+                                onClick={() => handleConversationClick(convo.$id)}
+                            >
+                                {convo.title}
+                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        variant="secondary"
+                                        size="icon"
+                                        className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity text-gray-800 hover:text-red-500 hover:bg-white"
+                                        disabled={isDeleting}
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent className="bg-[#0a1a1f] border-cyan-950 text-white">
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription className="text-gray-400">
+                                            This action cannot be undone. This will permanently delete your
+                                            conversation and all its messages.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel className="bg-gray-700 text-white hover:bg-gray-600 border-none">Cancel</AlertDialogCancel>
+                                        <AlertDialogAction 
+                                            onClick={() => handleDeleteConversation(convo.$id)}
+                                            className="bg-red-600 text-white hover:bg-red-700"
+                                        >
+                                            Delete
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
+                    ))
+                )}
+            </div>
+            <Button className="hidden md:flex items-center justify-start gap-2 bg-gray-500 mt-4" asChild>
+                <a href='https://github.com/owaismohammed79/RAG' target="_blank" rel="noopener noreferrer"><FaGithub className="w-5 h-5"/><span>GitHub</span></a>
+            </Button>
+            <Button onClick={handleLogout} className="hidden md:flex items-center justify-start gap-2 bg-red-600 hover:bg-red-700 ">
+                <LogOut className="w-5 h-5" />
+                <span>Logout</span>
+            </Button>
+        </div>
+    );
+};
+
+export default ConversationHistory;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Footer.jsx ====================
+
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+function Footer() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleScroll = (id) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  return (
+    <footer className='bg-[#1C221C] mt-0.5 text-white flex flex-col items-center justify-center py-4'>
+        <div className='flex gap-x-6 gap-y-3 flex-wrap justify-center px-4'>
+            <NavLink to="/" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>Home</NavLink>
+            <a href="/#how-it-works" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors cursor-pointer' onClick={(e) => { e.preventDefault(); handleScroll("how-it-works"); }}>How it works</a>
+            <a href="https://github.com/owaismohammed79/RAG" target="_blank" rel="noopener noreferrer" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>GitHub</a>
+            <NavLink to="/privacy-policy" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>Privacy Policy</NavLink>
+        </div>
+        <p className='text-sm mt-4'>Â© 2025 RAG. All Rights Reserved</p>
+    </footer>
+  )
+}
+
+export default Footer
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Home.jsx ====================
+
+import React from 'react'
+import Navbar from './Navbar'
+import { Typewriter } from 'react-simple-typewriter'
+import { useNavigate } from 'react-router-dom'
+
+export default function Home() {
+  const navigate = useNavigate()
+
+  return (
+    <div className="bg-[#1C221C] text-white overflow-hidden flex justify-center">
+      <Navbar />
+      <main className="relative mt-10 sm:mt-4 px-4 py-16 md:py-24">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at center, rgba(19, 227, 255, 0.15) 0%, rgba(28, 34, 28, 0.95) 70%, #1C221C 100%)'
+          }}
+        />
+        <section className='relative z-10 flex flex-col gap-16 items-center max-w-5xl mx-auto'>
+          <div className='text-center'>
+            <h2 className='text-4xl md:text-5xl text-[#13E3FF] font-bold mb-2'>Meet RAG</h2>
+            <p className='text-lg text-gray-300'>(Rapid Answer Generator)</p>
+          </div>
+          
+          <div className='flex flex-col items-center gap-8'>
+            <div className='font-bold text-4xl md:text-5xl text-center'>
+              <span>Upload Your Documents, Ask Anything,</span>
+              <br />
+              <span className="text-[#13E3FF]">
+                <Typewriter
+                  words={[" Get Instant Insights.", " Get Instant Answers.", " Get Instant Value."]}
+                  loop={true}
+                  cursor
+                  cursorStyle='|'
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1000}
+                />
+              </span>
+            </div>
+            <p className='max-w-2xl text-center text-lg leading-relaxed text-gray-300'>
+              RAG turns your PDFs into a personal knowledge base. Just upload, ask, and receive precise answers 
+              tailored to your content. From research to decision-making, RAG empowers you to 
+              extract maximum value from your documents.
+            </p>
+            
+            <button className='group bg-[#13E3FF] text-black rounded-xl font-bold py-3 px-6 text-xl flex items-center transition-all hover:bg-[#0FC9E8] hover:shadow-lg hover:shadow-[#13E3FF]/20' onClick={() => navigate('/signup')}>
+              <span>Start Now</span>
+              <img 
+                src="/collection-arrow-doodles.svg" 
+                alt="arrow logo" 
+                className='ml-2 pt-1 w-8 h-8 transition-transform group-hover:translate-x-1'
+              />
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  )
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\HowItWorks.jsx ====================
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+export default function HowItWorks() {
+
+  const features = [
+    {
+      title: "Want The Right Answer From Multiple PDFs?",
+      description: "Let Us Simplify It For You! Upload Your PDFs, And We'll Analyze Them To Give You A Clear And Concise Summarized Answer",
+      imgUrl: "/card-1-logo.svg"
+    },
+    {
+      title: "Don't Have The Material To Find Your Answer?",
+      description: "No Problem! We Deliver Accurate Answers To Your Questions Using The Latest Gemini Technology And Our Extensive Database, Ensuring You Get Exactly What You Need",
+      imgUrl: "/card-2-logo.svg"
+    },
+    {
+      title: "Now Featuring Voice Search!",
+      description: "Simply Ask RAG Your Question And Get Highly Precise Answers Instantly Using Our Advanced Voice Search Technology",
+      imgUrl: "/card-3-logo.svg"
+    },
+    {
+      title: "Boost Your Productivity By 10X!",
+      description: "Stop Wasting Time Searching For Answers. Simply Upload, Get What You Need Instantly, And Focus On Studying. Prioritize Quality Over Endless Searching",
+      imgUrl: "/card-4-logo.svg"
+    }
+  ]
+
+  return (
+    <div className="p-6 bg-[#1C221C] min-h-screen" id="how-it-works">
+      <h2 className="text-2xl font-bold text-white text-center mb-8">How It Works :</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {features.map((feature, index) => (
+          <Card key={index} className="bg-[#0A363CB2] border-none text-white p-6 relative group hover:bg-[#0A363CB2]/100 transition-colors overflow-hidden">
+            <div className={`absolute w-64 h-64 ${feature.gradient} rounded-full blur-3xl ${index % 2 === 0 ? '-top-32 -left-32' : '-top-32 -right-32'}`}></div>
+            <CardHeader className="p-0 mb-4 relative z-10">
+              <CardTitle className="text-lg font-medium text-center">
+                {feature.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0 flex flex-col relative z-10">
+              <p className="text-sm text-center text-white/90 mb-8">
+                {feature.description}
+              </p>
+              <div className="flex items-center justify-center">
+                {feature.imgUrl && <img src={feature.imgUrl} alt={feature.title} className="w-1/2" />}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  )}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Logo.jsx ====================
+
+
+function Logo({className='', textSize='2xl'}) {
+  return (
+    <div className={`w-28 flex items-center justify-center bg-transparent gap-1 px-1 px-2 mt-1 ${className}`}>
+        <div className="overflow-hidden">
+            <img src="/RAG-logo.png" alt="logo" className="block max-w-full"/>
+        </div>
+        <span className={`text-2xl font-bold text-white text-${textSize}`}>RAG</span>
+    </div>
+  )
+}
+
+export default Logo
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Navbar.jsx ====================
+
+import { useState } from "react";
+import Logo from "./Logo";
+import { NavLink } from "react-router-dom";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+
+function Navbar() {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const handleScroll = (id) => {
+    setIsSheetOpen(false); //Close sheet on link click
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  const navLinks = (
+    <>
+      <NavLink to="/" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Home</NavLink>
+      <NavLink to="/#how-it-works" className="text-white text-lg font-semibold px-2 py-2 md:py-0" onClick={() => handleScroll("how-it-works")}>How it works</NavLink>
+      <a href="https://github.com/owaismohammed79/RAG" target="_blank" rel="noopener noreferrer" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">GitHub</a>
+      <NavLink to="/signup" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Sign up</NavLink>
+      <NavLink to="/login" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Log In</NavLink>
+    </>
+  );
+
+  return (
+    <nav className="w-11/12 h-16 py-2 flex justify-between items-center px-4 fixed top-2 z-20 bg-white/30 backdrop-blur-3xl backdrop-brightness-50 rounded-full">
+      <Logo />
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex justify-around items-center gap-1">
+        {navLinks}
+      </div>
+      {/* Mobile Navigation */}
+      <div className="md:hidden">
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6 text-white" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="bg-[#0a1a1f] border-l-cyan-950 text-white w-[250px] sm:w-[300px] p-6">
+            <div className="flex flex-col items-start gap-6 pt-10">
+              {navLinks}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\PrivacyPolicy.jsx ====================
+
+import React from 'react';
+import { conf } from '../config/conf';
+import { Link } from 'react-router-dom';
+
+const PrivacyPolicy = () => {
+  const supportEmail = conf.emailAddress || '[Your Support Email Address]';
+  const mailtoLink = `mailto:${supportEmail}`;
+
+  return (
+    <div className="bg-[#1C221C] text-white min-h-screen p-4 sm:p-8">
+      <div className="max-w-4xl mx-auto bg-[#0A363CB2] p-6 sm:p-10 rounded-lg border border-cyan-900">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#13E3FF] mb-2">Privacy Policy for Rapid Answer Generator</h1>
+          <p className="text-gray-400">Last Updated: October 26, 2025</p>
+        </div>
+
+        <div className="space-y-6 text-gray-300 leading-relaxed">
+          <p>
+            This Privacy Policy explains how Rapid Answer Generator ("the App," "we," "us," or "our") collects, uses, and shares your information when you use our services.
+          </p>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">1. Data We Collect</h2>
+            <p>
+              When you sign in to Rapid Answer Generator using your Google Account, we collect the following information from your profile:
+            </p>
+            <ul className="list-disc list-inside pl-4 mt-2 space-y-1">
+              <li>Your full name</li>
+              <li>Your email address</li>
+              <li>Your profile picture</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">2. How We Use Your Data</h2>
+            <p>
+              We use the data we collect for the following purposes:
+            </p>
+            <ul className="list-disc list-inside pl-4 mt-2 space-y-1">
+              <li>To create and manage your user account.</li>
+              <li>To personalize your experience within the app.</li>
+              <li>To provide core functionality of the application.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">3. How We Store Your Data</h2>
+            <p>
+              The information you provide is stored securely on our servers, which are managed by Appwrite Cloud and located in Frankfurt, Germany. We take reasonable measures to protect your data from unauthorized access or disclosure.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">4. Data Sharing and Disclosure</h2>
+            <p>
+              We do not sell, rent, or trade your personal data to third parties.
+            </p>
+            <p>
+              We may share your data with third-party service providers only as necessary to provide our services. For example, we use Appwrite Cloud to store your data. These third parties are bound by strict confidentiality obligations.
+            </p>
+            <p>
+              We may also disclose your information if required by law, such as to comply with a subpoena or other legal process.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">5. Compliance with Google API Services User Data Policy</h2>
+            <p>
+              Rapid Answer Generator's use of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:underline">Google API Services User Data Policy</a>, including the Limited Use requirements.
+            </p>
+            <p>
+              Specifically, we will only use Google user data for providing or improving user-facing features that are clearly visible to you. We will not use the data for:
+            </p>
+            <ul className="list-disc list-inside pl-4 mt-2 space-y-1">
+              <li>Serving advertisements.</li>
+              <li>Transferring, selling, or sharing your data with any third party for any purpose not directly related to providing our services.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">6. Your Rights</h2>
+            <p>
+              You have the right to access, update, or delete your personal information. If you wish to do so, please contact us at <a href={mailtoLink} className="text-cyan-500 hover:underline">{supportEmail}</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">7. Changes to this Privacy Policy</h2>
+            <p>
+              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-cyan-400 mb-3">8. Contact Us</h2>
+            <p>
+              If you have any questions about this Privacy Policy, please contact us at: <a href={mailtoLink} className="text-cyan-500 hover:underline">{supportEmail}</a>.
+            </p>
+          </section>
+        </div>
+        <div className="mt-8 text-center">
+            <Link to="/" className="text-cyan-400 hover:text-cyan-300 transition-colors">&larr; Back to Home</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PrivacyPolicy;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ProcessingAnimation.jsx ====================
+
+import React from 'react';
+
+const ProcessingAnimation = () => {
+  const messages = [
+    "Analyzing documents...",
+    "Extracting key information...",
+    "Synthesizing insights...",
+    "Formulating response...",
+    "Consulting knowledge base...",
+    "Generating answer..."
+  ];
+
+  const [currentMessageIndex, setCurrentMessageIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [messages.length]);
+
+  return (
+    <div className="text-center text-cyan-400 flex items-center justify-center space-x-2">
+      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+      <span className="ml-2">{messages[currentMessageIndex]}</span>
+    </div>
+  );
+};
+
+export default ProcessingAnimation;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\Signup.jsx ====================
+
+import {Button} from '../components/ui/button'
+import Logo from './Logo'
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import {useForm} from 'react-hook-form'
+import { useNavigate, Link } from 'react-router-dom'
+import authService from '../appwrite(service)/auth.js'
+import { useState, useEffect } from 'react'
+import {Label} from '../components/ui/label'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle } from 'lucide-react'
+import { useSelector, useDispatch } from 'react-redux'
+import { login as reduxLogin, logout as reduxLogout } from '../redux/authSlice'
+
+function Signup({variable}) {
+  const [showPassword, setShowPassword] = useState(false);
+  const {register,handleSubmit,formState: { errors }} = useForm()
+  const navigate = useNavigate()
+  const { userData } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const [formError, setFormError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      navigate('/chat')
+    }
+  }, [])
+
+  const handleAuth = async (data) => {
+    setFormError(null);
+    setIsLoading(true);
+    try {
+      if (variable === "Sign up") {
+        await authService.createAccount({ email: data.email, password: data.password });
+      }
+        await authService.login({ email: data.email, password: data.password });
+      
+      const currentUser = await authService.getCurrentUser();
+      if (currentUser) {
+        const jwt = await authService.getJWT()
+        dispatch(reduxLogin({ userData: currentUser, jwt: jwt.jwt }))
+        localStorage.setItem('userData', JSON.stringify(currentUser))
+        navigate('/chat')
+      } else {
+        setFormError("Authentication successful, but failed to retrieve user data. Please try logging in again.");
+      }
+    } catch (error) {
+      console.error("Authentication error:", error);
+      setFormError(error.message || "An unexpected error occurred during authentication.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async() => {
+    setFormError(null);
+    setIsLoading(true);
+    try {
+      authService.logout();
+      dispatch(reduxLogout());
+      localStorage.clear();
+      await authService.googleLogin()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <div className='w-full h-[100dvh] flex flex-col justify-center items-center px-2 py-4 bg-[#1C221C] text-white relative'>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(19, 227, 255, 0.15) 0%, rgba(28, 34, 28, 0.95) 70%, #1C221C 100%)'
+        }}
+      />
+      <div className='flex flex-col justify-between items-center gap-2 w-full z-10'>
+        <div>
+          <Logo className={`w-40`} textSize={`4xl`}/>
+          <p className='py-1'>(Rapid Answer Generator)</p>
+        </div>
+        <h1 className='text-3xl sm:text-4xl py-1 font-bold text-center'>Be More Productive</h1>
+        <Card className='bg-[#0A363CB2] border-[#104f59] px-4 sm:px-6 py-2 relative group hover:bg-[#0A363CB2]/100 transition-colors overflow-hidden w-full max-w-md sm:w-3/4 md:w-1/2 lg:w-1/3'>  
+          <CardContent className='flex flex-col justify-between items-center gap-2 px-2 sm:px-6 py-2'>
+            <div className='text-sm text-gray-300 flex flex-col w-full items-center justify-center my-1'>
+              <span className='text-white font-bold text-2xl'>{variable}</span>
+              <div>
+                {variable === "Sign up" ? (
+                  <p>Already have an account?&nbsp;
+                    <Link to="/login" className='underline'>Log In?</Link>
+                  </p>) : 
+                  (<p>Don&apos;t have an account?&nbsp;
+                    <Link to="/signup" className='underline'>Sign up?</Link>
+                  </p>)}
+              </div>
+            </div>
+            {formError && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{formError}</AlertDescription>
+              </Alert>
+            )}
+            <Button className="w-full bg-white text-black hover:bg-white/80 border-hidden" onClick={handleGoogleLogin} disabled={isLoading}>
+              <div className='flex justify-center items-center gap-3'>
+                <img src='/Google_Icon.svg' alt='Google' className='w-7 h-7 mt-0.5'/>
+                <span className='text-[16px]'>Continue with Google</span>
+              </div>
+            </Button>
+            <span className='text-white'>OR</span>
+            <form onSubmit={handleSubmit(handleAuth)} className='flex flex-col justify-between items-center gap-3 w-full text-white'>
+              <Label className="place-self-start" htmlFor="email">Email</Label>
+              <Input type='email' id="email" placeholder='yourname@gmail.com' className='w-full text-white focus-visible:ring-0 focus:bg-transparent' {...register("email", {
+                  required: true,
+                  validate: {
+                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address"
+                  }
+                })} />
+              {errors.email && <span className='text-red-500'>Email is required</span>}
+              <Label className="place-self-start" htmlFor="userpassword">Password</Label>
+              <div className='flex w-full border border-slate-100 rounded-lg'>
+                <Input id="userpassword" placeholder={variable === "Sign up" ? 'Create a new password' : 'Enter your password'} className='w-full text-white border-none focus-visible:ring-0 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden' type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: true,
+                  validate: {
+                    matchPattern: (value) => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value) ||
+                    "Password should be at least 8 characters long with lower, upperCase alphabets and number"
+                  }
+                })} disabled={isLoading}/>
+                <Button onClick={() => setShowPassword(showPassword => !showPassword) } type="button" className="bg-transparent hover:bg-transparent">{showPassword ? <img src='/eye-open.svg' alt="Eye open icon" /> : <img src="/eye-closed.svg" alt="Eye closed icon"/>}</Button>
+              </div>
+              {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
+              <Button className='bg-[#13E3FF] w-full text-black hover:bg-[#13E3FF]/70' type="submit" disabled={isLoading}>
+                {isLoading ? "Processing..." : variable}
+              </Button>
+            </form>
+            <div className='text-white text-center text-xs'>By continuing, you agree to RAG&apos;s Consumer Terms and Usage Policy, and acknowledge their Privacy Policy</div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+export default Signup
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\alert-dialog.jsx ====================
+
+import * as React from "react"
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+
+const AlertDialog = AlertDialogPrimitive.Root
+
+const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+
+const AlertDialogPortal = AlertDialogPrimitive.Portal
+
+const AlertDialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Overlay
+    ref={ref}
+    className={cn(
+      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      className
+    )}
+    {...props} />
+))
+AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
+
+const AlertDialogContent = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPortal>
+    <AlertDialogOverlay />
+    <AlertDialogPrimitive.Content
+      ref={ref}
+      className={cn(
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+        className
+      )}
+      {...props} />
+  </AlertDialogPortal>
+))
+AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
+
+const AlertDialogHeader = ({
+  className,
+  ...props
+}) => (
+  <div
+    className={cn("flex flex-col space-y-2 text-center sm:text-left", className)}
+    {...props} />
+)
+AlertDialogHeader.displayName = "AlertDialogHeader"
+
+const AlertDialogFooter = ({
+  className,
+  ...props
+}) => (
+  <div
+    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+    {...props} />
+)
+AlertDialogFooter.displayName = "AlertDialogFooter"
+
+const AlertDialogTitle = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Title ref={ref} className={cn("text-lg font-semibold", className)} {...props} />
+))
+AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
+
+const AlertDialogDescription = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props} />
+))
+AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
+
+const AlertDialogAction = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Action ref={ref} className={cn(buttonVariants(), className)} {...props} />
+))
+AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
+
+const AlertDialogCancel = React.forwardRef(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Cancel
+    ref={ref}
+    className={cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)}
+    {...props} />
+))
+AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
+
+export {
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\alert.jsx ====================
+
+import * as React from "react"
+import { cva } from "class-variance-authority";
+
+import { cn } from "@/lib/utils"
+
+const alertVariants = cva(
+  "relative w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-zinc-950 [&>svg~*]:pl-7 dark:border-zinc-800 dark:[&>svg]:text-zinc-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50",
+        destructive:
+          "border-red-500/50 text-red-500 dark:border-red-500 [&>svg]:text-red-500 dark:border-red-900/50 dark:text-red-900 dark:dark:border-red-900 dark:[&>svg]:text-red-900",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const Alert = React.forwardRef(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props} />
+))
+Alert.displayName = "Alert"
+
+const AlertTitle = React.forwardRef(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props} />
+))
+AlertTitle.displayName = "AlertTitle"
+
+const AlertDescription = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props} />
+))
+AlertDescription.displayName = "AlertDescription"
+
+export { Alert, AlertTitle, AlertDescription }
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\button.jsx ====================
+
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority";
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-zinc-300",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-zinc-900 text-zinc-50 shadow hover:bg-zinc-900/90 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90",
+        destructive:
+          "bg-red-500 text-zinc-50 shadow-sm hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
+        outline:
+          "border border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
+        secondary:
+          "bg-zinc-100 text-zinc-900 shadow-sm hover:bg-zinc-100/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
+        ghost: "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
+        link: "text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+  return (
+    (<Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props} />)
+  );
+})
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\card.jsx ====================
+
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
+      className
+    )}
+    {...props} />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props} />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props} />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-zinc-500 dark:text-zinc-400", className)}
+    {...props} />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props} />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\input.jsx ====================
+
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Input = React.forwardRef(({ className, type, ...props }, ref) => {
+  return (
+    (<input
+      type={type}
+      className={cn(
+        "flex h-9 w-full rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-zinc-950 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:border-zinc-800 dark:file:text-zinc-50 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300",
+        className
+      )}
+      ref={ref}
+      {...props} />)
+  );
+})
+Input.displayName = "Input"
+
+export { Input }
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\label.jsx ====================
+
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { cva } from "class-variance-authority";
+
+import { cn } from "@/lib/utils"
+
+const labelVariants = cva(
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+)
+
+const Label = React.forwardRef(({ className, ...props }, ref) => (
+  <LabelPrimitive.Root ref={ref} className={cn(labelVariants(), className)} {...props} />
+))
+Label.displayName = LabelPrimitive.Root.displayName
+
+export { Label }
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\components\ui\sheet.jsx ====================
+
+import * as React from "react"
+import * as SheetPrimitive from "@radix-ui/react-dialog"
+import { cva } from "class-variance-authority";
+import { X } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const Sheet = SheetPrimitive.Root
+
+const SheetTrigger = SheetPrimitive.Trigger
+
+const SheetClose = SheetPrimitive.Close
+
+const SheetPortal = SheetPrimitive.Portal
+
+const SheetOverlay = React.forwardRef(({ className, ...props }, ref) => (
+  <SheetPrimitive.Overlay
+    className={cn(
+      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      className
+    )}
+    {...props}
+    ref={ref} />
+))
+SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
+
+const sheetVariants = cva(
+  "fixed z-50 gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out dark:bg-zinc-950",
+  {
+    variants: {
+      side: {
+        top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+        bottom:
+          "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+        left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+        right:
+          "inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+      },
+    },
+    defaultVariants: {
+      side: "right",
+    },
+  }
+)
+
+const SheetContent = React.forwardRef(({ side = "right", className, children, ...props }, ref) => (
+  <SheetPortal>
+    <SheetOverlay />
+    <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
+      <SheetPrimitive.Close
+        className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-zinc-100 dark:ring-offset-zinc-950 dark:focus:ring-zinc-300 dark:data-[state=open]:bg-zinc-800">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </SheetPrimitive.Close>
+      {children}
+    </SheetPrimitive.Content>
+  </SheetPortal>
+))
+SheetContent.displayName = SheetPrimitive.Content.displayName
+
+const SheetHeader = ({
+  className,
+  ...props
+}) => (
+  <div
+    className={cn("flex flex-col space-y-2 text-center sm:text-left", className)}
+    {...props} />
+)
+SheetHeader.displayName = "SheetHeader"
+
+const SheetFooter = ({
+  className,
+  ...props
+}) => (
+  <div
+    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+    {...props} />
+)
+SheetFooter.displayName = "SheetFooter"
+
+const SheetTitle = React.forwardRef(({ className, ...props }, ref) => (
+  <SheetPrimitive.Title
+    ref={ref}
+    className={cn("text-lg font-semibold text-zinc-950 dark:text-zinc-50", className)}
+    {...props} />
+))
+SheetTitle.displayName = SheetPrimitive.Title.displayName
+
+const SheetDescription = React.forwardRef(({ className, ...props }, ref) => (
+  <SheetPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-zinc-500 dark:text-zinc-400", className)}
+    {...props} />
+))
+SheetDescription.displayName = SheetPrimitive.Description.displayName
+
+export {
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+}
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\config\conf.js ====================
+
+export const conf = {
+    appwriteProjectId : String(import.meta.env.VITE_APPWRITE_PROJECT_ID),
+    appwriteUrl: String(import.meta.env.VITE_APPWRITE_ENDPOINT),
+    appwriteDatabaseId : String(import.meta.env.VITE_APPWRITE_DATABASE_ID),
+    appwriteCollectionId: String(import.meta.env.VITE_APPWRITE_COLLECTION_ID),
+    appwriteUsersCollectionId: String(import.meta.env.VITE_APPWRITE_USERS_COLL_ID),
+    appwriteUserLimitsCollId: String(import.meta.env.VITE_APPWRITE_USER_LIMITS_COLL_ID),
+    googleoAuthClientId: String(import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID),
+    emailAddress: String(import.meta.env.VITE_EMAIL_ADDRESS),
+    BackendURL: String(import.meta.env.VITE_BACKEND_URL),
+    BaseUrl: String(import.meta.env.VITE_BASE_URL)
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\hooks\useChat.js ====================
+
+import { useState, useRef, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { addMessage, setConversationId, fetchConversations } from "../redux/convoSlice"
+import { apiFetch } from "../utils/apiClient"
+
+export function useChat(jwt, activeConversationId, messages) {
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
+  const [streamingResponse, setStreamingResponse] = useState("")
+  const [promptsRemaining, setPromptsRemaining] = useState(null)
+  const [maxPrompts, setMaxPrompts] = useState(10)
+  
+  const abortControllerRef = useRef(null)
+
+  useEffect(() => {
+    if (!jwt) return
+    const controller = new AbortController()
+
+    const fetchLimit = async () => {
+      try {
+        const response = await apiFetch('/api/user/prompt-limit', { signal: controller.signal })
+        if (response.ok) {
+          const data = await response.json()
+          setPromptsRemaining(data.promptsRemaining)
+          setMaxPrompts(data.maxPrompts)
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") console.error("Prompt limit error:", error)
+      }
+    };
+
+    fetchLimit()
+    
+    return () => controller.abort()
+  }, [jwt])
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) abortControllerRef.current.abort();
+    };
+  }, []);
+
+  const submitChat = async (input, files, callbacks) => {
+    if (promptsRemaining !== null && promptsRemaining <= 0) {
+      dispatch(addMessage({ type: "bot", content: "Daily prompt limit reached." }));
+      return;
+    }
+
+    setIsLoading(true);
+    dispatch(addMessage({ type: "user", content: input }));
+    callbacks.onClearInput(); 
+    setStreamingResponse("");
+
+    try {
+      if (abortControllerRef.current) abortControllerRef.current.abort();
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
+      let targetConversationId = activeConversationId;
+
+      //upload and poll
+      if (files.length > 0) {
+        const uploadFormData = new FormData();
+        files.forEach((file) => uploadFormData.append("file", file));
+        uploadFormData.append("prompt", input); 
+        uploadFormData.append("conversationId", targetConversationId || "null");
+
+        const uploadRes = await apiFetch(`/api/documents/upload`, {
+          method: "POST",
+          body: uploadFormData,
+          signal
+        });
+        
+        if (!uploadRes.ok) throw new Error("File upload failed");
+        targetConversationId = (await uploadRes.json()).conversationId;
+
+        let isReady = false;
+        while (!isReady) {
+          await new Promise(r => setTimeout(r, 2000))
+          if(signal.aborted) return
+          
+          const statusRes = await apiFetch(`/api/documents/status?conversationId=${targetConversationId}`, { signal })
+          if(statusRes.ok) {
+            const statusData = await statusRes.json();
+            if (statusData.failed > 0) throw new Error("Backend failed to process document.");
+            if (statusData.ready) isReady = true;
+          }
+        }
+      }
+
+      // chat & Stream
+      const chatFormData = new FormData()
+      chatFormData.append("prompt", input)
+      chatFormData.append("conversationId", targetConversationId || "null")
+      chatFormData.append("history", JSON.stringify(messages.slice(-10)))
+
+      const chatRes = await apiFetch(`/api/prompt/text-file`, { method: "POST", body: chatFormData, signal })
+      if (!chatRes.ok) throw new Error("Chat request failed")
+
+      const reader = chatRes.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ""
+      let finalBotText = ""
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split("\n")
+        buffer = lines.pop()
+
+        for (const line of lines) {
+          if (!line.trim()) continue
+          try {
+            const data = JSON.parse(line)
+            switch (data.type) {
+              case 'rag_chunk':
+              case 'fallback_chunk':
+                setStreamingResponse(prev => prev + data.content)
+                finalBotText += data.content
+                break
+              case 'fallback_start':
+                setStreamingResponse(data.content)
+                finalBotText = data.content
+                break
+              case "metadata":
+                if (!activeConversationId) {
+                  dispatch(setConversationId(data.conversationId))
+                  dispatch(fetchConversations(jwt))
+                }
+                if (data.promptsRemaining !== undefined) setPromptsRemaining(data.promptsRemaining)
+                break
+              case "error":
+                finalBotText += `\n\nError: ${data.content}`;
+                break
+            }
+          } catch (e) {
+            console.error("Parse error:", e);
+          }
+        }
+      }
+
+      if (finalBotText.trim()) dispatch(addMessage({ type: "bot", content: finalBotText }))
+      setStreamingResponse("")
+
+    } catch (error) {
+      if(error.name === 'AbortError') return
+      
+      if (error.message === "AUTH_FAILED") {
+        callbacks.onAuthFailure()
+        return
+      }
+      callbacks.onRestoreInput(input, files)
+      dispatch(addMessage({ type: "bot", content: `Error: ${error.message}` }))
+      setStreamingResponse("")
+    } finally {
+      setIsLoading(false)
+      abortControllerRef.current = null
+    }
+  }
+
+  return { submitChat, isLoading, streamingResponse, promptsRemaining, maxPrompts }
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\hooks\useSpeech.js ====================
+
+import { useState, useEffect, useRef } from "react"
+
+export function useSpeech(onResult) {
+  const [isListening, setIsListening] = useState(false)
+  const [browserSupport, setBrowserSupport] = useState({ supported: true, message: "" })
+  const recognitionRef = useRef(null)
+
+  useEffect(() => {
+    const SpeechRecognition = globalThis.SpeechRecognition || globalThis.webkitSpeechRecognition
+    if(!SpeechRecognition) {
+      setBrowserSupport({ supported: false, message: "Speech recognition not supported in this browser." })
+      return
+    }
+
+    const recognition = new SpeechRecognition()
+    recognition.continuous = true
+    recognition.interimResults = true
+    
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((r) => r[0])
+        .map((r) => r.transcript)
+        .join("");
+      onResult(transcript)
+    }
+    
+    recognition.onstart = () => setIsListening(true)
+    recognition.onend = () => setIsListening(false)
+    
+    recognitionRef.current = recognition
+
+    return () => {
+      if(recognitionRef.current) {
+        recognitionRef.current.stop()
+      }
+    }
+  }, [onResult])
+
+  const handleMicClick = () => {
+    if(!browserSupport.supported || !recognitionRef.current) return
+    isListening ? recognitionRef.current.stop() : recognitionRef.current.start()
+  }
+
+  return { isListening, browserSupport, handleMicClick }
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\lib\utils.js ====================
+
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\pages\LandingPg.jsx ====================
+
+import Home from '../components/Home'
+import HowItWorks from '../components/HowItWorks'
+import {Button} from '../components/ui/button'
+import Footer from '../components/Footer'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { conf } from '../config/conf'
+
+function LandingPg() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const pingBackend = async () => {
+      try {
+        await fetch(`${conf.BackendURL}/api/ping`);
+        console.log("Backend pinged successfully.");
+      } catch (error) {
+        console.error("Failed to ping backend:", error);
+      }
+    };
+    pingBackend();
+  }, []);
+
+  return (
+    <div>
+        <Home />
+        <HowItWorks />
+        <section className='relative bg-[#1C221C] text-white overflow-hidden flex flex-col justify-center items-center py-4'>
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at center, rgba(19, 227, 255, 0.15) 0%, rgba(28, 34, 28, 0.95) 70%, #1C221C 100%)'
+            }}
+          />
+          <h1 className='relative text-3xl font-bold w-1/2 text-center'>Get instant, accurate answers from your PDFs with RAG. Simplify your search today!</h1>
+            <Button className='relative bg-[#1C221C] text-[#13E3FF] my-3' onClick={() => navigate('/signup')}>Try RAG --&gt;</Button>
+        </section>
+        <Footer />
+    </div>
+  )
+}
+
+export default LandingPg
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\redux\authSlice.js ====================
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+    status: false,
+    userData: null,
+    jwt: null
+}
+
+const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        login: (state, action) => {
+            state.status = true;
+            state.userData = action.payload.userData;
+            state.jwt = action.payload.jwt;
+        },
+        logout: (state) => {
+            state.status = false;
+            state.userData = null;
+            state.jwt = null;
+        }
+    }
+})
+
+export const {login, logout} = authSlice.actions;
+
+export default authSlice.reducer
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\redux\convoSlice.js ====================
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { conf } from "../config/conf";
+
+const initialState = {
+    status: 'idle',
+    conversations: [],
+    activeConversationId: null,
+    messages: [],
+    error: null
+}
+
+export const fetchConversations = createAsyncThunk(
+    "conversation/fetchConversations",
+    async (jwt, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`${conf.BackendURL}/api/conversations`, {
+                headers: { 'Authorization': `Bearer ${jwt}` }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch conversations');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const fetchMessages = createAsyncThunk(
+    "conversation/fetchMessages",
+    async ({ conversationId, jwt }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`${conf.BackendURL}/api/conversations/${conversationId}`, {
+                headers: { 'Authorization': `Bearer ${jwt}` }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch messages');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const deleteConversation = createAsyncThunk(
+    "conversation/deleteConversation",
+    async ({ conversationId, jwt }, { rejectWithValue, dispatch }) => {
+        try {
+            const response = await fetch(`${conf.BackendURL}/api/conversations/${conversationId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${jwt}` }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete conversation');
+            }
+            // After successful deletion, re-fetch conversations to update the sidebar
+            dispatch(fetchConversations(jwt));
+            return conversationId;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+const convoSlice = createSlice({
+    name: "conversation",
+    initialState,
+    reducers: {
+        setActiveConversation: (state, action) => {
+            state.activeConversationId = action.payload;
+            state.messages = []; //Remember to clear messages when switching conversations
+        },
+        addMessage: (state, action) => {
+            state.messages.push(action.payload);
+        },
+        setConversationId: (state, action) => {
+            state.activeConversationId = action.payload;
+        },
+        startNewChat: (state) => {
+            state.activeConversationId = null;
+            state.messages = [];
+        }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchConversations.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchConversations.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.conversations = action.payload;
+            })
+            .addCase(fetchConversations.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(fetchMessages.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchMessages.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.messages = action.payload.map(msg => ({
+                    type: msg.senderType,
+                    content: msg.content
+                }));
+            })
+            .addCase(fetchMessages.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(deleteConversation.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                //remove the deleted conversation from the state
+                state.conversations = state.conversations.filter(
+                    (convo) => convo.$id !== action.payload
+                );
+                //if the active conversation was deleted, clear it
+                if (state.activeConversationId === action.payload) {
+                    state.activeConversationId = null;
+                    state.messages = [];
+                }
+            })
+            .addCase(deleteConversation.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+    }
+})
+
+export const { setActiveConversation, addMessage, setConversationId, startNewChat } = convoSlice.actions;
+export default convoSlice.reducer;
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\redux\store.js ====================
+
+import {configureStore} from '@reduxjs/toolkit'
+import authSlice from './authSlice'
+import convoSlice from './convoSlice'
+
+const store = configureStore({
+    reducer: {
+        auth: authSlice,
+        conversation: convoSlice
+    }
+})
+
+export default store
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\client\src\utils\apiClient.js ====================
+
+import authService from '../appwrite(service)/auth';
+import { conf } from '../config/conf';
+
+export const apiFetch = async (endpoint, options = {}) => {
+  let token;
+  
+  try {
+    const session = await authService.getJWT()
+    token = session.jwt
+  } catch (error) {
+    console.error("Appwrite session is completely dead:", error)
+    throw new Error("AUTH_FAILED")
+  }
+
+  const headers = {...options.headers, 'Authorization': `Bearer ${token}`}
+  const response = await fetch(`${conf.BackendURL}${endpoint}`, {...options,headers})
+
+  if(response.status === 401) {
+    console.error("Backend rejected the token")
+    throw new Error("AUTH_FAILED")
+  }
+
+  return response;
+}
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\.env ====================
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\.env.sample ====================
+
+GOOGLE_API_KEY=
+VITE_APPWRITE_ENDPOINT=
+VITE_APPWRITE_PROJECT_ID=
+VITE_APPWRITE_API_KEY=
+VITE_APPWRITE_DATABASE_ID=
+VITE_APPWRITE_MESSAGES_COLL_ID=
+VITE_APPWRITE_CONVERSATIONS_COLL_ID=
+VITE_APPWRITE_USER_LIMITS_COLL_ID=
+VITE_APPWRITE_USERS_COLL_ID=
+VITE_APPWRITE_DOCUMENTS_COLL_ID=
+VITE_APPWRITE_CHUNKS_COLL_ID=
+VITE_APPWRITE_INGESTION_JOBS_COLL_ID=
+PINECONE_API_KEY=
+PINECONE_INDEX_NAME=
+FRONTEND_URL=
+MAX_FILE_BYTES=
+MAX_CHUNKS_PER_DOC=
+DOCS_KEEP_PER_USER=
+DOCS_MAX_AGE_DAYS=
+CHUNK_CAP_PER_USER=
+ADMIN_TOKEN=
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\app.py ====================
+
+from flask import Flask
+from flask_cors import CORS
+import os
+import logging
+from appwrite.client import Client
+from appwrite.services.databases import Databases
+from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+load_dotenv()
+
+# basic logging early so startup events are visible on render
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format='[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+)
+
+
+def create_app():
+    app = Flask(__name__)
+    logging.info("Process start: Flask app factory invoked")
+
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": os.getenv("FRONTEND_URL")}})
+
+    limiter = Limiter(
+        get_remote_address,
+        app=app,
+        default_limits=["60 per minute"]
+    )
+
+    client = Client()
+    client.set_endpoint(os.getenv("VITE_APPWRITE_ENDPOINT"))
+    client.set_project(os.getenv("VITE_APPWRITE_PROJECT_ID"))
+    client.set_key(os.getenv("VITE_APPWRITE_API_KEY"))
+
+    app.client = client
+    app.databases = Databases(client)
+    app.db_id = os.getenv("VITE_APPWRITE_DATABASE_ID")
+    app.conv_collection_id = os.getenv("VITE_APPWRITE_CONVERSATIONS_COLL_ID")
+    app.msg_collection_id = os.getenv("VITE_APPWRITE_MESSAGES_COLL_ID")
+    app.user_limits_collection_id = os.getenv("VITE_APPWRITE_USER_LIMITS_COLL_ID")
+    app.docs_collection_id = os.getenv("VITE_APPWRITE_DOCUMENTS_COLL_ID")
+    app.chunks_collection_id = os.getenv("VITE_APPWRITE_CHUNKS_COLL_ID")
+    app.jobs_collection_id = os.getenv("VITE_APPWRITE_INGESTION_JOBS_COLL_ID")
+    app.users_collection_id = os.getenv("VITE_APPWRITE_USERS_COLL_ID")
+
+    from api.routes import api
+    app.register_blueprint(api, url_prefix='/api')
+
+    global databases, db_id, conv_collection_id, msg_collection_id, user_limits_collection_id
+    global docs_collection_id, chunks_collection_id, jobs_collection_id, users_collection_id
+    databases = app.databases
+    db_id = app.db_id
+    conv_collection_id = app.conv_collection_id
+    msg_collection_id = app.msg_collection_id
+    user_limits_collection_id = app.user_limits_collection_id
+    docs_collection_id = app.docs_collection_id
+    chunks_collection_id = app.chunks_collection_id
+    jobs_collection_id = app.jobs_collection_id
+    users_collection_id = app.users_collection_id
+
+    #Eager initialize this so that user doesn't have to wait after his first request in chat
+    try:
+        from api.vector_store import get_vector_store
+        get_vector_store()
+    except Exception as init_err:
+        logging.error(f"Failed to eager-load vector store: {init_err}")
+
+    try:
+        from api.ingestion_worker import start_worker_once
+        start_worker_once(app)
+        logging.info("Background ingestion worker initialized")
+    except Exception as worker_err:
+        logging.error(f"Ingestion worker failed to start: {worker_err}")
+
+    logging.info("Health endpoint ready at /api/health")
+    return app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\requirements.txt ====================
+
+Flask==3.1.0
+Flask-Cors
+gunicorn==23.0.0
+gevent==25.8.2
+langchain==0.3.3
+langchain-community==0.3.2
+langchain-core==0.3.63
+langchain-text-splitters==0.3.0
+langchain-google-genai==2.0.1
+google-generativeai==0.8.3
+google-auth==2.35.0
+pypdf==5.0.1
+python-dotenv==1.0.1
+appwrite==11.0.0
+unstructured[pdf]==0.18.14
+Flask-Limiter
+langchain-pinecone
+pinecone-client
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\ai_service.py ====================
+
+import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
+import json
+import logging
+from datetime import datetime
+from appwrite.id import ID
+from appwrite.permission import Permission
+from appwrite.role import Role
+
+logger = logging.getLogger(__name__)
+
+def generate_rag_response(user_question, context_documents, history):
+    """Generate RAG response using context documents"""
+    context = "\n\n".join([doc.page_content for doc in context_documents])
+    
+    history_str_prompt = ""
+    for message in history:
+        role = "User" if message.get('type') == 'user' else "bot"
+        history_str_prompt += f"{role}: {message.get('content')}\n"
+    
+    rag_prompt = f"""
+You are an expert RAG assistant that answers questions based on the provided documents and previous conversation.
+Provide a detailed answer to the question based on the following context.
+If the answer is not in the provided context, just say, "Answer is not available in the context".
+Don't provide the wrong answer.
+
+Previous conversation:
+{history_str_prompt}
+
+Context from documents:
+{context}
+
+Question:
+{user_question}
+
+Answer:
+"""
+    
+    model = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite", temperature=0.3)
+    return model.stream(rag_prompt)
+
+def generate_fallback_response(user_question, history):
+    """Generate fallback response using general knowledge"""
+    history_str_prompt = ""
+    for message in history:
+        role = "User" if message.get('type') == 'user' else "bot"
+        history_str_prompt += f"{role}: {message.get('content')}\n"
+    
+    fallback_prompt = f"""
+Previous conversation:
+{history_str_prompt}
+
+Question:
+{user_question}
+
+Answer:
+"""
+    
+    model = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite", temperature=0.7)
+    return model.stream(fallback_prompt)
+
+def save_message_to_db(databases, db_id, msg_collection_id, conversation_id, sender_type, content):
+    """Save message to Appwrite database"""
+    databases.create_document(
+        db_id, 
+        msg_collection_id, 
+        ID.unique(),
+        {
+            'conversationId': conversation_id,
+            'senderType': sender_type,
+            'content': content,
+            'timestamp': datetime.now().isoformat()
+        },
+        permissions=[
+            Permission.read(Role.user(sender_type)),
+            Permission.update(Role.user(sender_type)),
+            Permission.delete(Role.user(sender_type)),
+        ] if sender_type != 'bot' else None
+    )
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\appwrite_utils.py ====================
+
+from datetime import datetime
+from appwrite.id import ID
+from appwrite.query import Query
+import logging
+
+logger = logging.getLogger(__name__)
+
+# documents.status enum in Appwrite
+DOC_PENDING = "pending"
+DOC_PROCESSING = "processing"
+DOC_COMPLETED = "completed"
+DOC_FAILED = "failed"
+
+# ingestion_jobs.status â€” align with the same enum pattern
+JOB_PENDING = "pending"
+JOB_PROCESSING = "processing"
+JOB_COMPLETED = "completed"
+JOB_FAILED = "failed"
+
+
+def rel_id(value):
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        return value.get("$id")
+    if isinstance(value, list):
+        if not value:
+            return None
+        return rel_id(value[0])
+    return None
+
+
+def get_or_create_user_document_id(databases, db_id, users_collection_id, auth_user_id, email=None):
+    """documents/chunks/jobs.userId are relationships to the Users collection. That attribute must be a Users document $id, not the Appwrite Auth user id."""
+    if not users_collection_id:
+        return auth_user_id
+
+    try:
+        result = databases.list_documents(
+            db_id,
+            users_collection_id,
+            queries=[Query.equal("userId", auth_user_id), Query.limit(1)],
+        )
+        docs = result.get("documents", [])
+        if docs:
+            return docs[0]["$id"]
+
+        payload = {
+            "userId": auth_user_id,
+            "email": (email or "unknown@local")[:30],
+            "status": True,
+            "joined": datetime.now().isoformat(),
+        }
+        created = databases.create_document(
+            db_id, users_collection_id, ID.unique(), payload
+        )
+        return created["$id"]
+    except Exception as exc:
+        logger.error("Failed to resolve Users collection document: %s", exc)
+        return auth_user_id
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\auth.py ====================
+
+from functools import wraps
+from flask import request, jsonify
+from appwrite.client import Client
+from appwrite.services.account import Account
+import os
+
+def get_user_client(jwt_token):
+    """Create a user-specific Appwrite client"""
+    user_client = Client()
+    user_client.set_endpoint(os.getenv("VITE_APPWRITE_ENDPOINT"))
+    user_client.set_project(os.getenv("VITE_APPWRITE_PROJECT_ID"))
+    user_client.set_jwt(jwt_token)
+    return user_client
+
+def auth_required(f):
+    """Authentication decorator"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return jsonify({'error': 'Missing token'}), 401
+        
+        try:
+            jwt_token = auth_header.split(' ')[1]
+            user_client = get_user_client(jwt_token)
+            user_account = Account(user_client)
+            user = user_account.get()
+            kwargs['user'] = user
+        except Exception as e:
+            return jsonify({'error': 'Invalid or expired token', 'details': str(e)}), 401
+            
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\documents.py ====================
+
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+import os
+import tempfile
+import subprocess
+from langchain_community.document_loaders import PyPDFLoader
+from langchain.schema.document import Document
+import re
+import logging
+import hashlib
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+def _run_ocrmypdf(input_path, output_path, language="eng"):
+    """Run OCR on a PDF file"""
+    command = [
+        "ocrmypdf",
+        "-l", language,
+        "--output-type", "pdf",
+        "--force-ocr",
+        input_path, output_path
+    ]
+    
+    logger.info(f"Attempting OCR with ocrmypdf for '{os.path.basename(input_path)}'...")
+    try:
+        subprocess.run(command, check=True, capture_output=True, text=True)
+        logger.info(f"OCR successful for '{os.path.basename(input_path)}'")
+        return True, None
+    except subprocess.CalledProcessError as e:
+        error_msg = f"ocrmypdf failed for '{os.path.basename(input_path)}' with exit code {e.returncode}.\nSTDOUT: {e.stdout}\nSTDERR: {e.stderr}"
+        logger.error(error_msg)
+        return False, error_msg
+    except FileNotFoundError:
+        error_msg = "Error: 'ocrmypdf' command not found"
+        logger.error(error_msg)
+        return False, error_msg
+    except Exception as e:
+        error_msg = f"An unexpected error occurred while running ocrmypdf: {e}"
+        logger.error(error_msg)
+        return False, error_msg
+
+def load_documents(file_array):
+    """Load documents from uploaded files"""
+    all_documents = []
+    
+    with tempfile.TemporaryDirectory() as tempdir:
+        saved_file_paths = []
+        
+        #save uploaded files
+        for i, file in enumerate(file_array):
+            if not hasattr(file, 'filename'):
+                raise ValueError("Invalid file object received")
+                
+            file_path = os.path.join(tempdir, f"uploaded_file_{i}_{file.filename}")
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            
+            try:
+                file.save(file_path)
+                saved_file_paths.append(file_path)
+            except AttributeError:
+                logger.error("Invalid object file type recieved")
+        
+        for file_path in saved_file_paths:
+            documents_for_this_pdf = []
+            is_scanned = False
+            total_chars_pypdf = 0
+            
+            #load with pypdf 
+            try:
+                pypdf_loader = PyPDFLoader(file_path)
+                pypdf_docs = pypdf_loader.load()
+                documents_for_this_pdf.extend(pypdf_docs)
+                
+                if not pypdf_docs:
+                    logger.info(f"PyPDFLoader found no text for {file_path}, assuming scanned PDF")
+                    is_scanned = True
+                elif len(pypdf_docs) > 0 and (sum(len(doc.page_content) for doc in pypdf_docs) / len(pypdf_docs) < 500):
+                    logger.info(f"Low character density for {file_path}, assuming potential scanned PDF")
+                    is_scanned = True
+                else:
+                    logger.info(f"Loaded {file_path} as a native PDF")
+            except Exception as e:
+                logger.error(f"Error with PyPDFLoader for {file_path}: {e}")
+                is_scanned = True
+            
+            #fallback to OCR if pypdf fails
+            if is_scanned:
+                ocr_output_path = os.path.join(tempdir, f"ocr_output_{os.path.basename(file_path)}")
+                ocr_successful, ocr_error_message = _run_ocrmypdf(file_path, ocr_output_path, language="eng")
+                
+                if ocr_successful:
+                    try:
+                        ocr_loader = PyPDFLoader(ocr_output_path)
+                        ocr_docs = ocr_loader.load()
+                        total_chars_ocr = sum(len(doc.page_content) for doc in ocr_docs)
+                        total_chars_pypdf = sum(len(doc.page_content) for doc in pypdf_docs) if pypdf_docs else 0
+                        
+                        if total_chars_ocr > total_chars_pypdf * 1.1:
+                            logger.info(f"Using OCR'd content for {file_path}")
+                            all_documents.extend(ocr_docs)
+                        elif not pypdf_docs and ocr_docs:
+                            logger.info(f"OCR extracted content where pypdf found none for {file_path}")
+                            all_documents.extend(ocr_docs)
+                        elif pypdf_docs and ocr_docs and total_chars_ocr <= total_chars_pypdf * 1.1:
+                            logger.info(f"OCR did not significantly improve content for {file_path}, sticking with original pypdf content")
+                            all_documents.extend(pypdf_docs)
+                        else:
+                            if documents_for_this_pdf:
+                                all_documents.extend(documents_for_this_pdf)
+                            else:
+                                logger.info(f"No content extracted by any method for {file_path}")
+                    except Exception as ocr_load_e:
+                        logger.error(f"Error loading OCR'd PDF '{ocr_output_path}': {ocr_load_e}")
+                        if documents_for_this_pdf:
+                            all_documents.extend(documents_for_this_pdf)
+                else:
+                    logger.error(f"OCR with ocrmypdf failed for {file_path}: {ocr_error_message}")
+                    if documents_for_this_pdf:
+                        all_documents.extend(documents_for_this_pdf)
+            else:
+                all_documents.extend(documents_for_this_pdf)
+                logger.info(f"Using native PDF content for {file_path}")
+    
+    return all_documents
+
+def split_documents(documents: list[Document]):
+    """Split documents into chunks"""
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=800,
+        chunk_overlap=80,
+        length_function=len,
+        is_separator_regex=False,
+    )
+    return text_splitter.split_documents(documents)
+
+def calculate_chunk_ids(chunks):
+    """Calculate unique IDs for document chunks"""
+    last_page_id = None
+    current_chunk_index = 0
+    
+    for chunk in chunks:
+        source = chunk.metadata.get("source")
+        page = chunk.metadata.get("page")
+        current_page_id = f"{source}:{page}"
+        
+        if current_page_id == last_page_id:
+            current_chunk_index += 1
+        else:
+            current_chunk_index = 0
+            
+        chunk_id = f"{current_page_id}:{current_chunk_index}"
+        last_page_id = current_page_id
+        chunk.metadata["id"] = chunk_id
+    
+    return chunks
+
+
+def compute_sha256_from_stream(stream):
+    """Compute SHA256 for file like stream; restores pointer to start"""
+    pos = stream.tell()
+    stream.seek(0)
+    sha = hashlib.sha256()
+    for block in iter(lambda: stream.read(8192), b''):
+        sha.update(block)
+    stream.seek(0)
+    return sha.hexdigest()
+
+
+def compute_chunk_hash(text: str) -> str:
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def build_chunk_records(chunks, file_hash, user_id, conversation_id, document_id):
+    """Convert langchain chunks to DB rows with hashes"""
+    records = []
+    for ch in chunks:
+        chunk_text = ch.page_content
+        chunk_hash = compute_chunk_hash(chunk_text)
+        records.append({
+            'chunkId': ch.metadata.get("id"),
+            'documentId': document_id,
+            'conversationId': conversation_id,
+            'userId': user_id,
+            'fileHash': file_hash,
+            'chunkHash': chunk_hash,
+            'text': chunk_text
+        })
+    return records
+
+def prioritize_chunks(chunks, user_prompt):
+    """Reorder chunks based on relevance to user prompt"""
+    if not user_prompt:
+        return chunks
+    
+    def get_tokens(text):
+        return set(re.findall(r'\w+', text.lower()))
+    
+    prompt_tokens = get_tokens(user_prompt)
+    
+    if len(prompt_tokens) == 0:
+        return chunks
+    
+    scored_chunks = []
+    for chunk in chunks:
+        chunk_tokens = get_tokens(chunk.page_content)
+        score = len(prompt_tokens.intersection(chunk_tokens))
+        scored_chunks.append((score, chunk))
+    
+    scored_chunks.sort(key=lambda x: x[0], reverse=True)
+    return [item[1] for item in scored_chunks]
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\ingestion_worker.py ====================
+
+import logging
+import threading
+import time
+from datetime import datetime
+from langchain.schema.document import Document
+from appwrite.query import Query
+
+from .vector_store import get_vector_store, add_documents_with_retry
+from .retention import enforce_retention_for_user
+from .appwrite_utils import ( rel_id, DOC_PROCESSING, DOC_COMPLETED, DOC_FAILED, JOB_PENDING, JOB_PROCESSING, JOB_COMPLETED, JOB_FAILED )
+
+_worker_started = False
+_worker_thread = None
+_worker_lock = threading.Lock()
+
+BATCH_SIZE = 16
+SLEEP_WHEN_IDLE = 5
+
+
+def start_worker_once(app):
+    """start a single ingestion worker thread. Uses appwrite db"""
+    global _worker_started, _worker_thread
+    if _worker_started:
+        return
+
+    with _worker_lock:
+        if _worker_started:
+            return
+
+        def _run():
+            with app.app_context():
+                logging.info("Ingestion worker loop starting")
+                recover_stuck_jobs()
+                while True:
+                    try:
+                        jobs = load_pending_jobs(limit=3)
+                        if not jobs:
+                            time.sleep(SLEEP_WHEN_IDLE)
+                            continue
+                        for job in jobs:
+                            process_job(job)
+                    except Exception as loop_err:
+                        logging.error(f"Ingestion worker loop error: {loop_err}")
+                        time.sleep(2)
+
+        _worker_thread = threading.Thread(target=_run, name="ingestion-worker", daemon=True)
+        _worker_thread.start()
+        _worker_started = True
+
+
+def recover_stuck_jobs():
+    """Any job left in processing is set back to pending on startup/restart"""
+    from app import databases, db_id, jobs_collection_id
+    try:
+        stuck = databases.list_documents(
+            db_id, jobs_collection_id,
+            queries=[Query.equal('status', JOB_PROCESSING)]
+        )
+
+        legacy = databases.list_documents(
+            db_id, jobs_collection_id,
+            queries=[Query.equal('status', 'running')]
+        )
+        stuck_jobs = {job['$id']: job for job in stuck.get('documents', [])}
+        for job in legacy.get('documents', []):
+            stuck_jobs[job['$id']] = job
+        for job in stuck_jobs.values():
+            databases.update_document(
+                db_id, jobs_collection_id, job['$id'],
+                {'status': JOB_PENDING, 'errorMessage': 'recovered after restart'}
+            )
+        if stuck_jobs:
+            logging.info(f"Recovered {len(stuck_jobs)} stuck jobs")
+    except Exception as exc:
+        logging.error(f"Failed to recover stuck jobs: {exc}")
+
+
+def load_pending_jobs(limit=3):
+    from app import databases, db_id, jobs_collection_id
+    try:
+        res = databases.list_documents(
+            db_id, jobs_collection_id,
+            queries=[
+                Query.equal('status', JOB_PENDING),
+                Query.order_asc('$createdAt'),
+                Query.limit(limit)
+            ]
+        )
+        return res.get('documents', [])
+    except Exception as exc:
+        logging.error(f"Failed to load pending jobs: {exc}")
+        return []
+
+
+def process_job(job):
+    from app import databases, db_id, docs_collection_id, chunks_collection_id, jobs_collection_id
+    job_id = job['$id']
+    user_id = rel_id(job.get('userId'))
+    document_id = rel_id(job.get('documentId'))
+    conversation_id = rel_id(job.get('conversationId'))
+    logging.info(f"[job:{job_id}] Starting ingestion for document {document_id}")
+
+    if not document_id:
+        logging.error(f"[job:{job_id}] Missing documentId on job")
+        databases.update_document(
+            db_id, jobs_collection_id, job_id,
+            {'status': JOB_FAILED, 'errorMessage': 'missing documentId'}
+        )
+        return
+    
+    try:
+        logging.info(f"Jobs colln id: {jobs_collection_id}")
+        logging.info(f"Job id: {job_id}")
+        databases.update_document(
+            db_id, jobs_collection_id, job_id,
+            {'status': JOB_PROCESSING, 'attempts': (job.get('attempts', 0) + 1)}
+        )
+        databases.update_document(
+            db_id, docs_collection_id, document_id,
+            {'status': DOC_PROCESSING}
+        )
+
+        doc_record = databases.get_document(db_id, docs_collection_id, document_id)
+        file_hash = doc_record.get('fileHash')
+
+        if not user_id:
+            user_id = rel_id(doc_record.get('userId'))
+        if not conversation_id:
+            conversation_id = rel_id(doc_record.get('conversationId'))
+
+        conv_rel = doc_record.get('conversationId')
+        auth_user_id = conv_rel.get('userId') if isinstance(conv_rel, dict) else None
+
+        chunks_res = databases.list_documents(
+            db_id, chunks_collection_id,
+            queries=[Query.equal('documentId', document_id), Query.limit(500)]
+        )
+        chunks = chunks_res.get('documents', [])
+        if not chunks:
+            raise RuntimeError("No chunks found for document")
+
+        store = get_vector_store()
+
+        docs_to_add = []
+        ids_to_add = []
+        for ch in chunks:
+            chunk_hash = ch.get('chunkHash')
+            meta = {
+                'chunk_hash': chunk_hash,
+                'file_hash': file_hash,
+                'document_id': document_id,
+                'conversation_id': conversation_id,
+                'user_id': auth_user_id or user_id,
+            }
+            doc = Document(page_content=ch.get('text', ''), metadata=meta)
+            docs_to_add.append(doc)
+            ids_to_add.append(chunk_hash)
+
+        for i in range(0, len(docs_to_add), BATCH_SIZE):
+            batch_docs = docs_to_add[i:i+BATCH_SIZE]
+            batch_ids = ids_to_add[i:i+BATCH_SIZE]
+            current_batch = (i // BATCH_SIZE) + 1
+            total_batches = (len(docs_to_add) + BATCH_SIZE - 1)
+            logging.info(f"[job:{job_id}] processing batch {current_batch}/{total_batches} ({len(batch_docs)} chunks)...")
+            add_documents_with_retry(store, batch_docs, batch_ids)
+            logging.info(f"[job:{job_id}] batch {current_batch} complete")
+
+
+        now_iso = datetime.now().isoformat()
+        databases.update_document(
+            db_id, docs_collection_id, document_id,
+            {'status': DOC_COMPLETED, 'lastUsedAt': now_iso, 'chunkCount': len(chunks)}
+        )
+        databases.update_document(
+            db_id, jobs_collection_id, job_id,
+            {'status': JOB_COMPLETED, 'errorMessage': ''}
+        )
+        logging.info(f"[job:{job_id}] Ingestion complete, added {len(docs_to_add)} new chunks")
+
+        if user_id:
+            enforce_retention_for_user(user_id)
+
+    except Exception as exc:
+        logging.error(f"[job:{job_id}] Failed: {exc}")
+        databases.update_document(
+            db_id, jobs_collection_id, job_id,
+            {'status': JOB_FAILED, 'errorMessage': str(exc)}
+        )
+        try:
+            databases.update_document(
+                db_id, docs_collection_id, document_id,
+                {'status': DOC_FAILED}
+            )
+        except Exception as doc_exc:
+            logging.error(f"[job:{job_id}] Could not mark document failed: {doc_exc}")
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\retention.py ====================
+
+import logging
+import os
+from datetime import datetime, timedelta
+from appwrite.query import Query
+
+from .vector_store import get_vector_store
+from .appwrite_utils import DOC_COMPLETED, DOC_FAILED, rel_id
+
+DOCS_KEEP = int(os.getenv("DOCS_KEEP_PER_USER", "100"))
+DOCS_MAX_AGE_DAYS = int(os.getenv("DOCS_MAX_AGE_DAYS", "100"))
+CHUNK_CAP = int(os.getenv("CHUNK_CAP_PER_USER", "8000"))
+
+
+def enforce_retention_for_user(user_id):
+    from app import databases, db_id, docs_collection_id
+    try:
+        docs_res = databases.list_documents(
+            db_id, docs_collection_id,
+            queries=[Query.equal('userId', user_id), Query.equal('status', DOC_COMPLETED),
+                     Query.order_desc('$createdAt'), Query.limit(100)]
+        )
+        docs = docs_res.get('documents', [])
+        if not docs:
+            return
+
+        # recent docs are kept
+        keep_ids = {doc['$id'] for doc in docs[:DOCS_KEEP]}
+
+        cutoff = datetime.now() - timedelta(days=DOCS_MAX_AGE_DAYS)
+        cutoff_iso = cutoff.isoformat()
+
+        total_chunks = 0
+        docs_to_prune = []
+        for doc in docs:
+            total_chunks += doc.get('chunkCount', 0)
+            created_ts = doc.get('$createdAt', '')
+            if doc['$id'] not in keep_ids:
+                docs_to_prune.append(doc)
+            elif created_ts < cutoff_iso:
+                docs_to_prune.append(doc)
+
+        # Prune oldest 
+        if total_chunks > CHUNK_CAP:
+            sorted_old = sorted(docs, key=lambda d: d.get('$createdAt', ''))
+            for doc in sorted_old:
+                if total_chunks <= CHUNK_CAP:
+                    break
+                if doc not in docs_to_prune:
+                    docs_to_prune.append(doc)
+                total_chunks -= doc.get('chunkCount', 0)
+
+        for doc in docs_to_prune:
+            prune_document(doc, reason="retention")
+    except Exception as exc:
+        logging.error(f"Retention enforcement failed for user {user_id}: {exc}")
+
+
+def prune_document(doc_record, reason="manual"):
+    """Delete vectors for a document and mark it pruned in DB"""
+    from app import databases, db_id, docs_collection_id, chunks_collection_id
+    doc_id = doc_record['$id']
+    user_id = rel_id(doc_record.get('userId'))
+    try:
+        store = get_vector_store()
+        store.delete(filter={'document_id': doc_id})        
+        chunks_res = databases.list_documents(
+            db_id, chunks_collection_id,
+            queries=[Query.equal('documentId', doc_id), Query.limit(5000)]
+        )
+        for ch in chunks_res.get('documents', []):
+            databases.delete_document(db_id, chunks_collection_id, ch['$id'])
+            
+        databases.update_document(
+            db_id, docs_collection_id, doc_id,
+            {'status': DOC_FAILED}
+        )
+        logging.info(f"Pruned document {doc_id} for user {user_id} ({reason})")
+    except Exception as exc:
+        logging.error(f"Failed to prune document {doc_id}: {exc}")
+
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\routes.py ====================
+
+from flask import Blueprint, request, jsonify, Response
+import json
+import logging
+import os
+import shutil
+from datetime import datetime
+from appwrite.id import ID
+from appwrite.query import Query
+
+from .auth import auth_required
+from .documents import (
+    load_documents,
+    split_documents,
+    calculate_chunk_ids,
+    prioritize_chunks,
+    compute_sha256_from_stream,
+    build_chunk_records,
+)
+from .vector_store import get_vector_store, reset_vector_store
+from .ai_service import generate_rag_response, generate_fallback_response, save_message_to_db
+from .user_service import get_user_prompt_limit, create_conversation, update_conversation_timestamp
+from .retention import enforce_retention_for_user, prune_document
+from .appwrite_utils import (
+    get_or_create_user_document_id,
+    rel_id,
+    DOC_PENDING,
+    DOC_PROCESSING,
+    DOC_COMPLETED,
+    DOC_FAILED,
+    JOB_PENDING,
+)
+
+logger = logging.getLogger(__name__)
+api = Blueprint("api", __name__)
+
+MAX_FILE_BYTES = int(os.getenv("MAX_FILE_BYTES", str(5 * 1024 * 1024)))  # 5MB default
+MAX_CHUNKS = int(os.getenv("MAX_CHUNKS_PER_DOC", "70"))
+
+
+def require_admin():
+    token = request.headers.get("X-Admin-Token")
+    expected = os.getenv("ADMIN_TOKEN")
+    return bool(expected and token == expected)
+
+
+def create_ingestion_job(user_id, document_id, conversation_id, file_hash):
+    """Persist ingestion job so worker can resume after restart."""
+    from app import databases, db_id, jobs_collection_id
+
+    return databases.create_document(
+        db_id,
+        jobs_collection_id,
+        ID.unique(),
+        {
+            "userId": user_id,
+            "documentId": document_id,
+            "conversationId": conversation_id,
+            "fileHash": file_hash,
+            "status": JOB_PENDING,
+            "attempts": 1,
+            "errorMessage": "",
+        },
+    )
+
+
+@api.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"}), 200
+
+
+@api.route("/ping", methods=["GET"])
+def ping():
+    """A simple endpoint to wake up the server"""
+    return jsonify({"status": "awake"}), 200
+
+
+@api.route("/user/prompt-limit", methods=["GET"])
+@auth_required
+def get_user_prompt_limit_route(user):
+    """Get user's prompt limit"""
+    from app import databases, db_id, user_limits_collection_id
+
+    try:
+        prompts_remaining, max_prompts = get_user_prompt_limit(
+            databases, db_id, user_limits_collection_id, user["$id"]
+        )
+        return jsonify({"promptsRemaining": prompts_remaining, "maxPrompts": max_prompts})
+    except Exception as e:
+        logger.error(f"Error fetching user prompt limit: {e}")
+        return jsonify({"error": "Failed to fetch prompt limit", "details": str(e)}), 500
+
+
+@api.route("/conversations", methods=["GET"])
+@auth_required
+def get_conversations(user):
+    """Get user's conversations"""
+    from app import databases, db_id, conv_collection_id
+
+    try:
+        result = databases.list_documents(
+            db_id,
+            conv_collection_id,
+            queries=[Query.equal("userId", user["$id"]), Query.order_desc("$createdAt")],
+        )
+        return jsonify(result["documents"])
+    except Exception as e:
+        logger.error(f"Error fetching conversations: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route("/conversations/<conversation_id>", methods=["GET"])
+@auth_required
+def get_messages(user, conversation_id):
+    """Get messages for a conversation"""
+    from app import databases, db_id, msg_collection_id, conv_collection_id
+
+    try:
+        convo = databases.get_document(db_id, conv_collection_id, conversation_id)
+        if convo["userId"] != user["$id"]:
+            return jsonify({"error": "Unauthorized"}), 403
+
+        result = databases.list_documents(
+            db_id,
+            msg_collection_id,
+            queries=[Query.equal("conversationId", conversation_id), Query.order_asc("$createdAt")],
+        )
+        return jsonify(result["documents"])
+    except Exception as e:
+        logger.error(f"Error fetching messages: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route("/conversations/<conversation_id>", methods=["DELETE"])
+@auth_required
+def delete_conversation(user, conversation_id):
+    from app import databases, db_id, conv_collection_id, msg_collection_id, docs_collection_id, chunks_collection_id, jobs_collection_id
+    from .vector_store import get_vector_store
+    
+    try:
+        conv = databases.get_document(db_id, conv_collection_id, conversation_id)
+        if rel_id(conv.get('userId')) != user['$id']:
+            logger.info(f"Unauthorized user")
+            return jsonify({"error": "Unauthorized"}), 403
+    except Exception:
+        return jsonify({"error": "Conversation not found"}), 404
+
+    #delete pinecone vectors first
+    try:
+        store = get_vector_store()
+        logger.info(f"Vector store retrieved")
+        store.delete(filter={'conversation_id': conversation_id})
+    except Exception as e:
+        logger.warning(f"Failed to delete Pinecone vectors for {conversation_id}: {e}")
+
+    def wipe_collection(collection_id):
+        while True:
+            res = databases.list_documents(
+                db_id, collection_id,
+                queries=[Query.equal('conversationId', conversation_id), Query.limit(100)]
+            )
+            docs = res.get('documents', [])
+            if not docs:
+                break
+            for d in docs:
+                databases.delete_document(db_id, collection_id, d['$id'])
+
+    try:
+        wipe_collection(chunks_collection_id)
+        wipe_collection(jobs_collection_id)
+        wipe_collection(docs_collection_id)
+        wipe_collection(msg_collection_id)
+    except Exception as e:
+        logger.error(f"Failed cleaning child collections for conv {conversation_id}: {e}")
+
+    try:
+        databases.delete_document(db_id, conv_collection_id, conversation_id)
+        return jsonify({"success": True, "message": "Conversation and all orphans wiped completely"})
+    except Exception as e:
+        logger.error(f"Error deleting conversation: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@api.route("/documents/upload", methods=["POST"])
+@auth_required
+def upload_documents(user):
+    """Upload and queue documents for ingestion (no embeddings in request)."""
+    from app import (
+        databases,
+        db_id,
+        conv_collection_id,
+        docs_collection_id,
+        chunks_collection_id,
+        users_collection_id,
+    )
+
+    users_doc_id = get_or_create_user_document_id(
+        databases, db_id, users_collection_id, user["$id"], user.get("email")
+    )
+
+    files = request.files.getlist("file")
+    conversation_id = request.form.get("conversationId")
+    user_question = request.form.get("prompt", "")
+
+    if not files:
+        return jsonify({"error": "No files provided"}), 400
+
+    # Basic validation and hashing
+    file_hashes = []
+    for file in files:
+        if not file.filename.lower().endswith(".pdf"):
+            return jsonify({"error": "Only PDF files are allowed"}), 400
+        size = len(file.read())
+        if size > MAX_FILE_BYTES:
+            return jsonify({"error": f"File size exceeds limit of {MAX_FILE_BYTES//1024//1024}MB"}), 400
+        file.seek(0)
+        file_hash = compute_sha256_from_stream(file.stream)
+        file_hashes.append((file, file_hash))
+
+    # Conversation handling
+    if not conversation_id or conversation_id == "null":
+        conversation_id = create_conversation(
+            databases, db_id, conv_collection_id, user["$id"], user_question or "Document Upload"
+        )
+    else:
+        update_conversation_timestamp(databases, db_id, conv_collection_id, conversation_id)
+
+    responses = []
+
+    for file, file_hash in file_hashes:
+        # idempotency: skip existing doc with same hash
+        existing = databases.list_documents(
+            db_id,
+            docs_collection_id,
+            queries=[
+                Query.equal("conversationId", conversation_id),
+                Query.equal("fileHash", file_hash),
+            ],
+        )
+        if existing.get("total", 0) > 0:
+            responses.append({"filename": file.filename, "status": "skipped_duplicate"})
+            continue
+
+        documents = load_documents([file])
+        chunks = split_documents(documents)
+        if not chunks:
+            return jsonify({"error": f"{file.filename} contained no extractable text"}), 400
+        if len(chunks) > MAX_CHUNKS:
+            return jsonify({"error": f"Too many chunks ({len(chunks)}) - please upload a smaller file"}), 400
+
+        for chunk in chunks:
+            chunk.metadata["user_id"] = user["$id"]
+            chunk.metadata["conversation_id"] = conversation_id
+
+        chunks_with_ids = calculate_chunk_ids(chunks)
+        sorted_chunks = prioritize_chunks(chunks_with_ids, user_question)
+
+        now_iso = datetime.now().isoformat()
+        doc_record = databases.create_document(
+            db_id,
+            docs_collection_id,
+            ID.unique(),
+            {
+                "userId": user["$id"],
+                "conversationId": conversation_id,
+                "fileHash": file_hash,
+                "fileName": file.filename,
+                "lastUsedAt": now_iso,
+                "status": DOC_PENDING,
+                "chunkCount": len(sorted_chunks),
+            },
+        )
+
+        # chunk_records = build_chunk_records(
+        #     sorted_chunks, file_hash, users_doc_id, conversation_id, doc_record["$id"]
+        # )
+        chunk_records = build_chunk_records(
+    sorted_chunks,
+    file_hash,
+    user["$id"],
+    conversation_id,
+    doc_record["$id"]
+)
+
+        for rec in chunk_records:
+            databases.create_document(
+                db_id,
+                chunks_collection_id,
+                ID.unique(),
+                rec,
+            )
+
+        # create_ingestion_job(users_doc_id, doc_record["$id"], conversation_id, file_hash)
+        create_ingestion_job(
+    user["$id"],
+    doc_record["$id"],
+    conversation_id,
+    file_hash
+)
+        responses.append({"filename": file.filename, "status": "queued"})
+
+    # enforce_retention_for_user(users_doc_id)
+    # enforce_retention_for_user(user["$id"])
+
+
+    return (
+        jsonify(
+            {
+                "message": "Documents accepted and queued for ingestion",
+                "conversationId": conversation_id,
+                "files": responses,
+            }
+        ),
+        202,
+    )
+
+
+@api.route("/documents/status", methods=["GET"])
+@auth_required
+def documents_ingestion_status(user):
+    """Poll whether documents for a conversation finished background ingestion."""
+    from app import databases, db_id, docs_collection_id
+
+    conversation_id = request.args.get("conversationId")
+    if not conversation_id:
+        return jsonify({"error": "conversationId is required"}), 400
+
+    try:
+        docs_res = databases.list_documents(
+            db_id,
+            docs_collection_id,
+            queries=[
+                Query.equal("conversationId", conversation_id),
+                Query.limit(100),
+            ],
+        )
+        docs = docs_res.get("documents", [])
+        if not docs:
+            return jsonify({"ready": False, "pending": 0, "failed": 0, "total": 0}), 200
+
+        statuses = [doc.get("status") for doc in docs]
+        pending = sum(1 for s in statuses if s in (DOC_PENDING, DOC_PROCESSING))
+        failed = sum(1 for s in statuses if s == DOC_FAILED)
+        ready = pending == 0 and failed == 0 and all(s == DOC_COMPLETED for s in statuses)
+
+        return jsonify(
+            {
+                "ready": ready,
+                "pending": pending,
+                "failed": failed,
+                "total": len(docs),
+            }
+        ), 200
+    except Exception as e:
+        logger.error(f"Error checking document status: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api.route("/prompt/text-file", methods=["POST"])
+@auth_required
+def process_documents_without_voice(user):
+    """Chat route; no ingestion occurs here."""
+    from app import databases, db_id, msg_collection_id, conv_collection_id, user_limits_collection_id, docs_collection_id, users_collection_id
+
+    user_id = user["$id"]
+    user_prompt = request.form.get("prompt")
+    files = request.files.getlist("file")
+    conversation_id = request.form.get("conversationId")
+    history_str = request.form.get("history", "[]")
+
+    users_doc_id = get_or_create_user_document_id(databases, db_id, users_collection_id, user_id, user.get("email"))
+
+    try:
+        history = json.loads(history_str)
+    except json.JSONDecodeError:
+        history = []
+
+    if files:
+        return jsonify({"error": "Uploads must be sent to /api/documents/upload"}), 400
+
+    if not user_prompt:
+        return jsonify({"error": "Missing question argument"}), 400
+
+    prompts_remaining, max_prompts = get_user_prompt_limit(
+        databases, db_id, user_limits_collection_id, user_id
+    )
+
+    if prompts_remaining <= 0:
+        return jsonify(
+            {"error": f"Daily prompt limit of {max_prompts} reached. Please try again tomorrow."}
+        ), 429
+
+    if not conversation_id or conversation_id == "null":
+        conversation_id = create_conversation(databases, db_id, conv_collection_id, user_id, user_prompt)
+    else:
+        update_conversation_timestamp(databases, db_id, conv_collection_id, conversation_id)
+
+    save_message_to_db(databases, db_id, msg_collection_id, conversation_id, "user", user_prompt)
+
+    # Determine whether we have ready documents
+    # docs_ready = databases.list_documents(
+    #     db_id,
+    #     docs_collection_id,
+    #     queries=[
+    #         Query.equal("userId", users_doc_id), 
+    #         Query.equal("conversationId", conversation_id),
+    #         Query.equal("status", DOC_COMPLETED),
+    #         Query.limit(1),
+    #     ],
+    # )
+    docs_ready = databases.list_documents(
+    db_id,
+    docs_collection_id,
+    queries=[
+        Query.equal("userId", user_id),
+        Query.equal("conversationId", conversation_id),
+        Query.equal("status", DOC_COMPLETED),
+        Query.limit(1),
+    ],
+)
+
+    context_documents = []
+    if docs_ready.get("total", 0) > 0:
+        try:
+            search_filter = {"user_id": user_id, "conversation_id": conversation_id}
+            store = get_vector_store()
+            retriever = store.as_retriever(search_kwargs={"k": 5, "filter": search_filter})
+            docs = retriever.invoke(user_prompt)
+            context_documents = docs if docs else []
+        except Exception as e:
+            logger.error(f"Vector retrieval failed: {e}")
+            context_documents = []
+
+    def generate_stream():
+        final_answer_for_db = ""
+        rag_response_buffer = ""
+
+        try:
+            logger.info("Starting RAG stream...")
+            if context_documents:
+                rag_stream = generate_rag_response(user_prompt, context_documents, history)
+                for chunk in rag_stream:
+                    chunk_content = chunk.content
+                    if chunk_content:
+                        rag_response_buffer += chunk_content
+                        yield json.dumps({"type": "rag_chunk", "content": chunk_content}) + "\n"
+            else:
+                rag_response_buffer = "Answer is not available in the context"
+
+            if "Answer is not available in the context" in rag_response_buffer:
+                # prefix = "No indexed documents found. Response from Gemini:\n"
+                prefix = "I couldn't find relevant information in your uploaded documents. General Gemini response:\n"
+
+                yield json.dumps({"type": "fallback_start", "content": prefix}) + "\n"
+                fallback_stream = generate_fallback_response(user_prompt, history)
+                fallback_buffer = ""
+                for chunk in fallback_stream:
+                    chunk_content = chunk.content
+                    if chunk_content:
+                        fallback_buffer += chunk_content
+                        yield json.dumps({"type": "fallback_chunk", "content": chunk_content}) + "\n"
+                final_answer_for_db = prefix + fallback_buffer
+            else:
+                final_answer_for_db = rag_response_buffer
+
+            save_message_to_db(databases, db_id, msg_collection_id, conversation_id, "bot", final_answer_for_db)
+
+        except Exception as e:
+            logger.error(f"Error during AI stream generation: {e}")
+            yield json.dumps({"type": "error", "content": f"An error occurred: {str(e)}"}) + "\n"
+
+        metadata = {"type": "metadata", "conversationId": conversation_id, "promptsRemaining": prompts_remaining - 1}
+        yield json.dumps(metadata) + "\n"
+
+    response = Response(generate_stream(), mimetype="application/x-ndjson")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+    return response
+
+
+@api.route("/admin/prune", methods=["POST"])
+def admin_prune():
+    if not require_admin():
+        return jsonify({"error": "Unauthorized"}), 403
+    from app import databases, db_id, docs_collection_id
+
+    data = request.get_json() or {}
+    user_id = data.get("userId")
+    conversation_id = data.get("conversationId")
+    file_hash = data.get("fileHash")
+
+    queries = []
+    if user_id:
+        queries.append(Query.equal("userId", user_id))
+    if conversation_id:
+        queries.append(Query.equal("conversationId", conversation_id))
+    if file_hash:
+        queries.append(Query.equal("fileHash", file_hash))
+    if not queries:
+        return jsonify({"error": "Specify userId, conversationId or fileHash"}), 400
+
+    docs_res = databases.list_documents(db_id, docs_collection_id, queries=queries + [Query.limit(500)])
+    count = 0
+    for doc in docs_res.get("documents", []):
+        prune_document(doc, reason="admin")
+        count += 1
+    return jsonify({"pruned": count})
+
+
+@api.route("/admin/rebuild-index", methods=["POST"])
+def admin_rebuild():
+    if not require_admin():
+        return jsonify({"error": "Unauthorized"}), 403
+    from app import databases, db_id, docs_collection_id
+
+    data = request.get_json() or {}
+    drop_vectors = data.get("dropVectors", False)
+
+    if drop_vectors:
+        reset_vector_store()
+
+    docs_res = databases.list_documents(
+        db_id, docs_collection_id, queries=[Query.equal("status", DOC_COMPLETED), Query.limit(500)]
+    )
+    jobs_created = 0
+    for doc in docs_res.get("documents", []):
+        create_ingestion_job(
+            rel_id(doc.get("userId")),
+            doc["$id"],
+            rel_id(doc.get("conversationId")),
+            doc["fileHash"],
+        )
+        databases.update_document(db_id, docs_collection_id, doc["$id"], {"status": DOC_PENDING})
+        jobs_created += 1
+
+    return jsonify({"jobsCreated": jobs_created, "droppedVectors": bool(drop_vectors)})
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\user_service.py ====================
+
+from appwrite.services.databases import Databases
+from appwrite.query import Query
+from appwrite.id import ID
+from appwrite.permission import Permission
+from appwrite.role import Role
+from datetime import date
+import logging
+
+logger = logging.getLogger(__name__)
+
+MAX_PROMPTS_PER_DAY = 100
+
+def get_user_prompt_limit(databases, db_id, user_limits_collection_id, user_id):
+    """Get user's prompt limit"""
+    try:
+        user_limit_docs = databases.list_documents(
+            db_id,
+            user_limits_collection_id,
+            queries=[Query.equal('userId', user_id)]
+        )
+        
+        user_limit_doc = user_limit_docs['documents'][0] if user_limit_docs['documents'] else None
+        today_str = date.today().isoformat()
+        
+        if user_limit_doc:
+            last_reset_date = user_limit_doc.get('lastResetDate')
+            prompt_count = user_limit_doc.get('promptCount', 0)
+            
+            if last_reset_date != today_str:
+                # New day, reset count
+                databases.update_document(
+                    db_id,
+                    user_limits_collection_id,
+                    user_limit_doc['$id'],
+                    {'promptCount': 1, 'lastResetDate': today_str}
+                )
+                prompts_remaining = MAX_PROMPTS_PER_DAY - 1
+            else:
+                # Same day
+                if prompt_count >= MAX_PROMPTS_PER_DAY:
+                    return 0, MAX_PROMPTS_PER_DAY
+                else:
+                    databases.update_document(
+                        db_id,
+                        user_limits_collection_id,
+                        user_limit_doc['$id'],
+                        {'promptCount': prompt_count + 1}
+                    )
+                    prompts_remaining = MAX_PROMPTS_PER_DAY - (prompt_count + 1)
+        else:
+            # Create new user limit document
+            databases.create_document(
+                db_id,
+                user_limits_collection_id,
+                ID.unique(),
+                {
+                    'userId': user_id,
+                    'promptCount': 1,
+                    'lastResetDate': today_str
+                },
+                permissions=[
+                    Permission.read(Role.user(user_id)),
+                    Permission.update(Role.user(user_id)),
+                    Permission.delete(Role.user(user_id)),
+                ]
+            )
+            prompts_remaining = MAX_PROMPTS_PER_DAY - 1
+            
+        return prompts_remaining, MAX_PROMPTS_PER_DAY
+    except Exception as e:
+        logger.error(f"Error managing user prompt limit: {e}")
+        return MAX_PROMPTS_PER_DAY, MAX_PROMPTS_PER_DAY
+
+def create_conversation(databases, db_id, conv_collection_id, user_id, title):
+    """Create a new conversation"""
+    from datetime import datetime
+    
+    current_timestamp = datetime.now().isoformat()
+    
+    doc = databases.create_document(
+        db_id,
+        conv_collection_id,
+        ID.unique(),
+        {
+            'title': title[:50],
+            'userId': user_id,
+            'lastMessageAt': current_timestamp
+        },
+        permissions=[
+            Permission.read(Role.user(user_id)),
+            Permission.update(Role.user(user_id)),
+            Permission.delete(Role.user(user_id)),
+        ]
+    )
+    
+    return doc['$id']
+
+def update_conversation_timestamp(databases, db_id, conv_collection_id, conversation_id):
+    """Update conversation last message timestamp"""
+    from datetime import datetime
+    
+    current_timestamp = datetime.now().isoformat()
+    
+    databases.update_document(
+        db_id,
+        conv_collection_id,
+        conversation_id,
+        {'lastMessageAt': current_timestamp}
+    )
+
+
+==================== C:\Users\Adarsh Singh\Downloads\thirdSem\RAG\server\api\vector_store.py ====================
+
+import os
+import logging
+import threading
+from tenacity import retry, wait_exponential, stop_after_attempt
+from langchain_pinecone import PineconeVectorStore
+from pinecone import Pinecone
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+_vector_store = None
+_embeddings = None
+_lock = threading.Lock()
+
+
+def get_embedding_function():
+    global _embeddings
+    if _embeddings is None:
+        if not os.getenv("GOOGLE_API_KEY"):
+            raise RuntimeError("Missing GOOGLE_API_KEY for embeddings")
+        _embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/gemini-embedding-001"
+        ) #Sends in 3072 dimension output no matter what you give in for output_dimensionality attribute
+        logging.info("Embeddings initialized")
+    return _embeddings
+
+
+def get_vector_store():
+    global _vector_store
+    if _vector_store is None:
+        with _lock:
+            if _vector_store is None:
+                api_key = os.getenv("PINECONE_API_KEY")
+                index_name = os.getenv("PINECONE_INDEX_NAME")
+                
+                if not api_key or not index_name:
+                    raise ValueError("PINECONE API KEY and PINECONE INDEX NAME must be set in env")
+                
+                embeddings = get_embedding_function()
+                pc = Pinecone(api_key=api_key)
+                _vector_store = PineconeVectorStore(
+                    index_name=index_name, 
+                    embedding=embeddings
+                )
+                logging.info(f"Pinecone initialized for index: {index_name}")
+    return _vector_store
+
+def log_error(state):
+    if state.outcome.failed:
+        exception = state.outcome.exception()
+        logging.warning(f"Push to vector store failed. Retrying... Error: {exception}")
+
+
+@retry(wait=wait_exponential(multiplier=2, min=5, max=60), stop=stop_after_attempt(5), after=log_error)
+def add_documents_with_retry(db, batch, ids):
+    """Add documents to vector store with retry logic"""
+    db.add_documents(batch, ids=ids)
+
+
+def reset_vector_store():
+    """admin only hook to delete vector index"""
+    global _vector_store
+    if _vector_store:
+        api_key = os.getenv("PINECONE_API_KEY")
+        index_name = os.getenv("PINECONE_INDEX_NAME")
+        pc = Pinecone(api_key=api_key)
+
+        try:
+            index = pc.Index(index_name)
+            index.delete(delete_all=True)
+            logging.info(f"Wiped all vectors with the index {index_name}")
+        except Exception as e:
+            logging.error(f"Error in clearing vectors in the index {e}")
+
+
+

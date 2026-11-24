@@ -26,7 +26,7 @@ function Footer() {
         <div className='flex gap-x-6 gap-y-3 flex-wrap justify-center px-4'>
             <NavLink to="/" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>Home</NavLink>
             <a href="/#how-it-works" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors cursor-pointer' onClick={(e) => { e.preventDefault(); handleScroll("how-it-works"); }}>How it works</a>
-            <a href="https://github.com/owaismohammed79/RAG" target="_blank" rel="noopener noreferrer" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>GitHub</a>
+            <a href="https://github.com/adarsh-singh01/AskPDF" target="_blank" rel="noopener noreferrer" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>GitHub</a>
             <NavLink to="/privacy-policy" className='text-[#13E3FF] hover:text-[#0FC9E8] transition-colors'>Privacy Policy</NavLink>
         </div>
         <p className='text-sm mt-4'>© 2025 RAG. All Rights Reserved</p>

@@ -18,8 +18,8 @@ export default function Home() {
         />
         <section className='relative z-10 flex flex-col gap-16 items-center max-w-5xl mx-auto'>
           <div className='text-center'>
-            <h2 className='text-4xl md:text-5xl text-[#13E3FF] font-bold mb-2'>Meet RAG</h2>
-            <p className='text-lg text-gray-300'>(Rapid Answer Generator)</p>
+            <h2 className='text-4xl md:text-5xl text-[#13E3FF] font-bold mb-2'>Meet AskPDF</h2>
+            <p className='text-lg text-gray-300'></p>
           </div>
           
           <div className='flex flex-col items-center gap-8'>
@@ -39,8 +39,8 @@ export default function Home() {
               </span>
             </div>
             <p className='max-w-2xl text-center text-lg leading-relaxed text-gray-300'>
-              RAG turns your PDFs into a personal knowledge base. Just upload, ask, and receive precise answers 
-              tailored to your content. From research to decision-making, RAG empowers you to 
+              AskPDF turns your PDFs into a personal knowledge base. Just upload, ask, and receive precise answers 
+              tailored to your content. From research to decision-making, AskPDF empowers you to 
               extract maximum value from your documents.
             </p>
             

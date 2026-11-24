@@ -5,7 +5,7 @@ function Logo({className='', textSize='2xl'}) {
         <div className="overflow-hidden">
             <img src="/RAG-logo.png" alt="logo" className="block max-w-full"/>
         </div>
-        <span className={`text-2xl font-bold text-white text-${textSize}`}>RAG</span>
+        <span className={`text-2xl font-bold text-white text-${textSize}`}>AskPDF</span>
     </div>
   )
 }

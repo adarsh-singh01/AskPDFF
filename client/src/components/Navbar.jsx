@@ -22,7 +22,7 @@ function Navbar() {
     <>
       <NavLink to="/" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Home</NavLink>
       <NavLink to="/#how-it-works" className="text-white text-lg font-semibold px-2 py-2 md:py-0" onClick={() => handleScroll("how-it-works")}>How it works</NavLink>
-      <a href="https://github.com/owaismohammed79/RAG" target="_blank" rel="noopener noreferrer" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">GitHub</a>
+      <a href="https://github.com/adarsh-singh01/AskPDF" target="_blank" rel="noopener noreferrer" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">GitHub</a>
       <NavLink to="/signup" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Sign up</NavLink>
       <NavLink to="/login" onClick={() => setIsSheetOpen(false)} className="text-white text-lg font-semibold px-2 py-2 md:py-0">Log In</NavLink>
     </>

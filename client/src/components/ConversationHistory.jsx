@@ -126,7 +126,7 @@ const ConversationHistory = () => {
                 )}
             </div>
             <Button className="hidden md:flex items-center justify-start gap-2 bg-gray-500 mt-4" asChild>
-                <a href='https://github.com/owaismohammed79/RAG' target="_blank" rel="noopener noreferrer"><FaGithub className="w-5 h-5"/><span>GitHub</span></a>
+                <a href='https://github.com/adarsh-singh01/AskPDF' target="_blank" rel="noopener noreferrer"><FaGithub className="w-5 h-5"/><span>GitHub</span></a>
             </Button>
             <Button onClick={handleLogout} className="hidden md:flex items-center justify-start gap-2 bg-red-600 hover:bg-red-700 ">
                 <LogOut className="w-5 h-5" />
